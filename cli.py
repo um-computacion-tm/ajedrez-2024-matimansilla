@@ -19,28 +19,26 @@ def play(chess):
         to_col = get_input("To col: ")
 
         if from_row is None or from_col is None or to_row is None or to_col is None:
-            return  # Sale de la función si hay una entrada inválida
+            return False  # Sale de la función si hay una entrada inválida
 
         chess.move(from_row, from_col, to_row, to_col)
         print("Move made.")
     
     except Exception as e:
         print("Error:", e)
-
+        return False
 
     return True  # Continue the loop
 
 def get_input(prompt):
-    user_input = input(prompt)
-    if user_input.lower() == 'q':
-        return None
-    try:
-        return int(user_input)
-    except ValueError:
-        print("Invalid input. Please enter a number or 'q' to quit.")
-        return get_input(prompt)
+    while True:
+        user_input = input(prompt)
+        if user_input.lower() == 'q':
+            return None
+        try:
+            return int(user_input)
+        except ValueError:
+            print("Invalid input. Please enter a number or 'q' to quit.")
 
 if __name__ == '__main__':
     main()
-
-    
