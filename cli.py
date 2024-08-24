@@ -1,44 +1,25 @@
-from chess import Chess
+from chess import Chess 
 
 def main():
     chess = Chess()
-    print("Welcome to Chess!")
-    print("Enter your moves by specifying row and column numbers.")
-    print("Type 'q' at any prompt to quit the game.\n")
-
     while True:
-        if not play(chess):
-            break
-    print("Thank you for playing!")
+        play(chess)
 
 def play(chess):
+    print("Inicio de play()")
     try:
-        from_row = get_input("From row: ")
-        from_col = get_input("From col: ")
-        to_row = get_input("To row: ")
-        to_col = get_input("To col: ")
+        from_x = int(input("Enter from X: "))
+        from_y = int(input("Enter from Y: "))
+        to_x = int(input("Enter to X: "))
+        to_y = int(input("Enter to Y: "))
 
-        if from_row is None or from_col is None or to_row is None or to_col is None:
-            return False  # Sale de la función si hay una entrada inválida
+        print(f"Moviendo de ({from_x}, {from_y}) a ({to_x}, {to_y})")
 
-        chess.move(from_row, from_col, to_row, to_col)
-        print("Move made.")
-    
-    except Exception as e:
-        print("Error:", e)
-        return False
+        result = chess.move(from_x, from_y, to_x, to_y)
+        print("Resultado del movimiento:", result)
 
-    return True  # Continue the loop
-
-def get_input(prompt):
-    while True:
-        user_input = input(prompt)
-        if user_input.lower() == 'q':
-            return None
-        try:
-            return int(user_input)
-        except ValueError:
-            print("Invalid input. Please enter a number or 'q' to quit.")
+    except ValueError:
+        print("Entrada no válida, por favor ingrese números enteros.")  # Manejo de errores
 
 if __name__ == '__main__':
     main()
