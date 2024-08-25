@@ -1,6 +1,6 @@
 import unittest
 from board import Board
-from rook import Rook  # Ajusta el import si 'Rook' está en otro módulo
+from pieces import Rook  # Ajusta esto si 'Rook' está en otro módulo
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
@@ -18,7 +18,7 @@ class TestBoard(unittest.TestCase):
         for row, col, color in rooks_positions:
             piece = self.board.get_piece(row, col)
             self.assertIsInstance(piece, Rook)
-            self.assertEqual(piece.__color__, color)
+            self.assertEqual(piece.color, color)  # Ahora accede correctamente al atributo 'color'
 
     def test_empty_spaces(self):
         empty_rows = [2, 3, 4, 5]
@@ -28,4 +28,3 @@ class TestBoard(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
