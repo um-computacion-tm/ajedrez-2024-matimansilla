@@ -1,25 +1,28 @@
 from chess import Chess 
-
-def main():
+def main ():
     chess = Chess()
     while True:
         play(chess)
-
 def play(chess):
-    print("Inicio de play()")
     try:
-        from_x = int(input("Enter from X: "))
-        from_y = int(input("Enter from Y: "))
-        to_x = int(input("Enter to X: "))
-        to_y = int(input("Enter to Y: "))
+        from_row= int(input("From row: "))
+        from_col= int(input("From col: "))
+        to_row= int(input("To row: "))
+        to_col= int(input("To col: "))
+    
+        chess.move(
+            from_row,
+            from_col,
+            to_row,
+            to_col
+        )
+    
+    except Exception as e:
+        print ("error", e)
 
-        print(f"Moviendo de ({from_x}, {from_y}) a ({to_x}, {to_y})")
 
-        result = chess.move(from_x, from_y, to_x, to_y)
-        print("Resultado del movimiento:", result)
-
-    except ValueError:
-        print("Entrada no válida, por favor ingrese números enteros.")  # Manejo de errores
 
 if __name__ == '__main__':
+
     main()
+    

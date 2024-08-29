@@ -1,30 +1,53 @@
 import unittest
 from board import Board
-from pieces import Rook  # Ajusta esto si 'Rook' está en otro módulo
+from pieces import Rook, Pawn
 
 class TestBoard(unittest.TestCase):
-    def setUp(self):
-        self.board = Board()
 
-    def test_get_piece(self):
-        self.assertIsInstance(self.board.get_piece(0, 0), Rook)
-        self.assertIsNone(self.board.get_piece(2, 0))
+    def test_board_initialization(self):
+        board = Board()
 
-    def test_rooks_creation(self):
-        rooks_positions = [
-            (0, 0, 'BLACK'), (0, 7, 'BLACK'),
-            (7, 0, 'WHITE'), (7, 7, 'WHITE')
-        ]
-        for row, col, color in rooks_positions:
-            piece = self.board.get_piece(row, col)
-            self.assertIsInstance(piece, Rook)
-            self.assertEqual(piece.color, color)  # Ahora accede correctamente al atributo 'color'
+        # Verificar que las torres estén en las posiciones correctas
+        self.assertIsInstance(board.get_piece(0, 0), Rook)
+        self.assertEqual(board.get_piece(0, 0).color, 'BLACK')
+        self.assertIsInstance(board.get_piece(0, 7), Rook)
+        self.assertEqual(board.get_piece(0, 7).color, 'BLACK')
+        self.assertIsInstance(board.get_piece(7, 0), Rook)
+        self.assertEqual(board.get_piece(7, 0).color, 'WHITE')
+        self.assertIsInstance(board.get_piece(7, 7), Rook)
+        self.assertEqual(board.get_piece(7, 7).color, 'WHITE')
 
-    def test_empty_spaces(self):
-        empty_rows = [2, 3, 4, 5]
-        for row in empty_rows:
+        # Verificar que los peones estén en las posiciones correctas
+        for col in range(8):
+            self.assertIsInstance(board.get_piece(6, col), Pawn)
+            self.assertEqual(board.get_piece(6, col).color, 'WHITE')
+            self.assertIsInstance(board.get_piece(1, col), Pawn)
+            self.assertEqual(board.get_piece(1, col).color, 'BLACK')
+
+        # Verificar que las posiciones vacías sean realmente None
+        for row in range(8):
             for col in range(8):
-                self.assertIsNone(self.board.get_piece(row, col))
+                if row in (0, 7) and col in (0, 7):
+                    continue  # Las posiciones con torres
+                if row == 6 or row == 1:
+                    continue  # Las posiciones con peones
+                self.assertIsNone(board.get_piece(row, col))
+
+    def test_str_representation(self):
+        board = Board()
+        board_str = str(board)
+        # Ajustar la representación esperada según los símbolos utilizados
+        expected_board_str = (
+            "♖        ♖\n"
+            "♟♟♟♟♟♟♟♟\n"
+            "        \n"
+            "        \n"
+            "        \n"
+            "        \n"
+            "♙♙♙♙♙♙♙♙\n"
+            "♖        ♖\n"
+        )
+        self.assertEqual(board_str.strip(), expected_board_str.strip())
 
 if __name__ == '__main__':
     unittest.main()
