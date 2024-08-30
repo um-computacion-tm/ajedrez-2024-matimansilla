@@ -1,16 +1,22 @@
-class Piece: 
-    def __init__ (self, color):
-        self.__color__ = color 
-    def get_color(self):
-        return self.__color__
+class Piece:
+    def __init__(self, color, board):
+        self.color = color  # Atributo público
+        self.__board__ = board
+
+    def __str__(self):
+        if self.color == "WHITE":
+            return self.white_str
+        else:
+            return self.black_str
 
 class Rook(Piece):
-    white_str='W'
-    black_str='B'
+    def __init__(self, color, board):
+        super().__init__(color, board)
+        self.white_str = "♖"
+        self.black_str = "♜"
 
-    def possible_positions(self,row,col):
-        possibles=[]
-        for next_row in range(row+1,8):
-            if self.board.get_piece[next_row][col] is None:
-                possibles.append((next_row,col))
-        return possibles
+class Pawn(Piece):
+    def __init__(self, color, board):
+        super().__init__(color, board)
+        self.white_str = "♙"
+        self.black_str = "♟"
