@@ -1,13 +1,8 @@
 from pieces import Rook, Pawn
 
-class Board: 
-    def __init__(self): 
-        self.__positions__ = []
-        for _ in range(8):
-            col = []
-            for _ in range(8):
-                col.append(None)
-            self.__positions__.append(col)
+class Board:
+    def __init__(self):
+        self.__positions__ = [[None for _ in range(8)] for _ in range(8)]
 
         # Inicializar las torres
         self.__positions__[0][0] = Rook("BLACK", self)

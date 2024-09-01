@@ -16,24 +16,32 @@ class Rook(Piece):
         self.black_str = "♜"  # Símbolo para BLACK
 
     def possible_positions_vd(self, row, col):
-        """Devuelve las posiciones posibles hacia abajo (descendente)"""
-        positions = []
+        """Devuelve las posiciones posibles hacia abajo (vertical descendente)."""
+        possibles = []
         for r in range(row + 1, 8):
-            if self.__board__.get_piece(r, col) is None:
-                positions.append((r, col))
+            other_piece = self.__board__.get_piece(r, col)
+            if other_piece is None:
+                possibles.append((r, col))
+            elif other_piece.color != self.color:
+                possibles.append((r, col))
+                break
             else:
                 break
-        return positions
+        return possibles
 
     def possible_positions_va(self, row, col):
-        """Devuelve las posiciones posibles hacia arriba (ascendente)"""
-        positions = []
+        """Devuelve las posiciones posibles hacia arriba (vertical ascendente)."""
+        possibles = []
         for r in range(row - 1, -1, -1):
-            if self.__board__.get_piece(r, col) is None:
-                positions.append((r, col))
+            other_piece = self.__board__.get_piece(r, col)
+            if other_piece is None:
+                possibles.append((r, col))
+            elif other_piece.color != self.color:
+                possibles.append((r, col))
+                break
             else:
                 break
-        return positions
+        return possibles
 
 class Pawn(Piece):
     def __init__(self, color, board):
