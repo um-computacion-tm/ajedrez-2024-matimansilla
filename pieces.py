@@ -1,7 +1,7 @@
 class Piece:
     def __init__(self, color, board):
         self.color = color  # Atributo público
-        self.__board__ = board
+        self.__board__ = board  # Atributo privado para el tablero
 
     def __str__(self):
         if self.color == "WHITE":
@@ -18,12 +18,12 @@ class Rook(Piece):
     def possible_positions_vd(self, row, col):
         """Devuelve las posiciones posibles hacia abajo (vertical descendente)."""
         possibles = []
-        for r in range(row + 1, 8):
-            other_piece = self.__board__.get_piece(r, col)
+        for next_row in range(row + 1, 8):
+            other_piece = self.__board__.get_piece(next_row, col)
             if other_piece is None:
-                possibles.append((r, col))
+                possibles.append((next_row, col))
             elif other_piece.color != self.color:
-                possibles.append((r, col))
+                possibles.append((next_row, col))
                 break
             else:
                 break
@@ -32,12 +32,12 @@ class Rook(Piece):
     def possible_positions_va(self, row, col):
         """Devuelve las posiciones posibles hacia arriba (vertical ascendente)."""
         possibles = []
-        for r in range(row - 1, -1, -1):
-            other_piece = self.__board__.get_piece(r, col)
+        for next_row in range(row - 1, -1, -1):
+            other_piece = self.__board__.get_piece(next_row, col)
             if other_piece is None:
-                possibles.append((r, col))
+                possibles.append((next_row, col))
             elif other_piece.color != self.color:
-                possibles.append((r, col))
+                possibles.append((next_row, col))
                 break
             else:
                 break
