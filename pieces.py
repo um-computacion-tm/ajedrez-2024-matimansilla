@@ -2,12 +2,17 @@ class Piece:
     def __init__(self, color, board):
         self.color = color  # Atributo público
         self.__board__ = board  # Atributo privado para el tablero
+        self.position = None  # Atributo para la posición
 
     def __str__(self):
         if self.color == "WHITE":
             return self.white_str
         else:
             return self.black_str
+
+    def set_position(self, row, col):
+        """Establece la posición de la pieza en el tablero."""
+        self.position = (row, col)
 
 class Rook(Piece):
     def __init__(self, color, board):
