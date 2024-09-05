@@ -4,6 +4,10 @@ class Rook(Piece):
     white_str = "♖"
     black_str = "♜"
 
+    def __init__(self, color, board):
+        super().__init__(color, board)
+        # El método set_position se utilizará para establecer la posición en el tablero
+
     def possible_positions_vd(self, row, col):
         possibles = []
         for next_row in range(row + 1, 8):

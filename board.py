@@ -24,7 +24,7 @@ class Board:
     def place_piece(self, piece, row, col):
         """Coloca una pieza en la posición dada y actualiza su posición interna."""
         self.set_piece(row, col, piece)
-        piece.set_position(row, col)
+        piece.set_position(row, col)  # Asegura que la pieza tenga la posición actualizada
 
     def __str__(self):
         board_str = ""

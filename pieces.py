@@ -46,6 +46,7 @@ class Rook(Piece):
                 break
             else:
                 break
+        # Asegurarse de incluir todas las posiciones posibles hasta el borde
         return possibles
 
 class Pawn(Piece):
