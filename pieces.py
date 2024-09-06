@@ -14,6 +14,11 @@ class Piece:
         """Establece la posición de la pieza en el tablero."""
         self.position = (row, col)
 
+    def symbol(self):
+        """Devuelve el símbolo de la pieza según su color."""
+        return str(self)
+
+
 class Rook(Piece):
     def __init__(self, color, board):
         super().__init__(color, board)
@@ -46,8 +51,8 @@ class Rook(Piece):
                 break
             else:
                 break
-        # Asegurarse de incluir todas las posiciones posibles hasta el borde
         return possibles
+
 
 class Pawn(Piece):
     def __init__(self, color, board):

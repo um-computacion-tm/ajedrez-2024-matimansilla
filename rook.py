@@ -6,7 +6,10 @@ class Rook(Piece):
 
     def __init__(self, color, board):
         super().__init__(color, board)
-        # El método set_position se utilizará para establecer la posición en el tablero
+
+    def symbol(self):
+        """Devuelve el símbolo de la pieza según su color."""
+        return str(self)
 
     def possible_positions_vd(self, row, col):
         possibles = []
