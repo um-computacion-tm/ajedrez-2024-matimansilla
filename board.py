@@ -1,37 +1,26 @@
-from rook import Rook
-from pieces import Pawn
-
 class Board:
-    def __init__(self, for_test=False):
-        self.__positions__ = [[None for _ in range(8)] for _ in range(8)]
-        if not for_test:
-            # Inicializa las torres (Rook) y peones (Pawn)
-            self.set_piece(0, 0, Rook('BLACK', self))
-            self.set_piece(0, 7, Rook('BLACK', self))
-            for col in range(8):
-                self.set_piece(1, col, Pawn('BLACK', self))
-                self.set_piece(6, col, Pawn('WHITE', self))
-            self.set_piece(7, 0, Rook('WHITE', self))
-            self.set_piece(7, 7, Rook('WHITE', self))
-
-    def set_piece(self, row, col, piece):
-        self.__positions__[row][col] = piece
+    def __init__(self):
+        self.__positions__ = [[None for _ in range(8)] for _ in range(8)]  # Tablero de 8x8
 
     def get_piece(self, row, col):
+        if row < 0 or row >= 8 or col < 0 or col >= 8:
+            raise IndexError("La posición está fuera de los límites del tablero")
         return self.__positions__[row][col]
 
-    def move(self, start_row, start_col, end_row, end_col):
-        piece = self.get_piece(start_row, start_col)
-        self.set_piece(end_row, end_col, piece)
-        self.set_piece(start_row, start_col, None)
+    def set_piece(self, row, col, piece):
+        if row < 0 or row >= 8 or col < 0 or col >= 8:
+            raise IndexError("La posición está fuera de los límites del tablero")
+        self.__positions__[row][col] = piece
+
+    def move_piece(self, from_row, from_col, to_row, to_col):
+        piece = self.get_piece(from_row, from_col)
+        if not piece:
+            raise ValueError("No hay ninguna pieza en la posición de origen.")
+        self.set_piece(to_row, to_col, piece)
+        self.set_piece(from_row, from_col, None)
 
     def __str__(self):
-        def piece_str(piece):
-            if piece is None:
-                return " "
-            return piece.symbol()
-
-        rows = []
+        result = ""
         for row in self.__positions__:
-            rows.append("".join([piece_str(piece) for piece in row]))
-        return "\n".join(rows)
+            result += " ".join(str(piece) if piece else "." for piece in row) + "\n"
+        return result.strip()
