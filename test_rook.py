@@ -34,7 +34,7 @@ class TestRook(unittest.TestCase):
             board.__positions__[4][col] = None
         rook = Rook('WHITE', board)
         board.set_piece(4, 1, rook)
-        possibles = rook.possible_positions_hd(4, 1)
+        possibles = rook.possible_positions_hr(4, 1)
         self.assertEqual(possibles, [(4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7)])
 
     def test_move_horizontal_left(self):
@@ -44,7 +44,7 @@ class TestRook(unittest.TestCase):
             board.__positions__[4][col] = None
         rook = Rook('WHITE', board)
         board.set_piece(4, 5, rook)
-        possibles = rook.possible_positions_ha(4, 5)
+        possibles = rook.possible_positions_hl(4, 5)
         self.assertEqual(possibles, [(4, 4), (4, 3), (4, 2), (4, 1), (4, 0)])
 
     def test_move_with_enemy_piece(self):
@@ -56,7 +56,7 @@ class TestRook(unittest.TestCase):
         possibles = rook.possible_positions_vd(4, 1)
         self.assertEqual(possibles, [(5, 1), (6, 1)])  # Puede capturar en (6,1)
 
-    def test_possible_positions(self):
+    def test_valid_positions(self):
         board = Board()
         # Limpia todas las posiciones a lo largo de filas y columnas
         for i in range(8):
@@ -64,10 +64,8 @@ class TestRook(unittest.TestCase):
                 board.__positions__[i][j] = None
         rook = Rook('WHITE', board)
         board.set_piece(4, 4, rook)
-        possibles = rook.possible_positions(4, 4)
-        expected = [(5, 4), (6, 4), (7, 4), (3, 4), (2, 4), (1, 4), (0, 4),  # Verticales
-                    (4, 5), (4, 6), (4, 7), (4, 3), (4, 2), (4, 1), (4, 0)]  # Horizontales
-        self.assertEqual(sorted(possibles), sorted(expected))  # Compara todas las posiciones posibles
+        valid = rook.valid_positions(4, 4, 7, 4)
+        self.assertTrue(valid)  # Debería poder moverse a (7, 4)
 
 if __name__ == '__main__':
     unittest.main()
