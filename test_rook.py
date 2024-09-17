@@ -40,7 +40,37 @@ class TestRook(unittest.TestCase):
         possibles = rook.possible_positions_vd(4, 1)
         self.assertEqual(possibles, [(5, 1), (6, 1)])  # La torre puede capturar la pieza enemiga.
 
-    def test_move_diagonal_desc(self):
+    def test_move_horizontal_right(self):
+        board = Board()
+        rook = Rook("WHITE", board)
+        board.set_piece(4, 1, rook)  # Colocamos la torre en la posición inicial.
+        possibles = rook.possible_positions_hr(4, 1)  # Movimientos horizontales a la derecha.
+        self.assertEqual(possibles, [(4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7)])  # Movimientos válidos.
+
+    def test_move_horizontal_left(self):
+        board = Board()
+        rook = Rook("WHITE", board)
+        board.set_piece(4, 4, rook)  # Colocamos la torre en la posición inicial.
+        possibles = rook.possible_positions_hl(4, 4)  # Movimientos horizontales a la izquierda.
+        self.assertEqual(possibles, [(4, 3), (4, 2), (4, 1), (4, 0)])  # Movimientos válidos.
+
+    def test_move_horizontal_right_with_own_piece(self):
+        board = Board()
+        board.set_piece(4, 3, Pawn("WHITE", board))  # Colocamos un peón blanco en la trayectoria.
+        rook = Rook("WHITE", board)
+        board.set_piece(4, 1, rook)  # Colocamos la torre en el tablero.
+        possibles = rook.possible_positions_hr(4, 1)
+        self.assertEqual(possibles, [(4, 2)])  # La torre no debe saltar ni capturar piezas del mismo color.
+
+    def test_move_horizontal_right_with_not_own_piece(self):
+        board = Board()
+        board.set_piece(4, 3, Pawn("BLACK", board))  # Colocamos un peón negro en la trayectoria.
+        rook = Rook("WHITE", board)
+        board.set_piece(4, 1, rook)  # Colocamos la torre en el tablero.
+        possibles = rook.possible_positions_hr(4, 1)
+        self.assertEqual(possibles, [(4, 2), (4, 3)])  # La torre puede capturar la pieza enemiga.
+
+    def test_move_diagonal(self):
         board = Board()
         rook = Rook("WHITE", board)
         board.set_piece(0, 0, rook)  # Colocamos la torre en la esquina del tablero.
