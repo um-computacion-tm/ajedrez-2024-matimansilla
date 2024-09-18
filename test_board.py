@@ -7,8 +7,8 @@ class TestBoard(unittest.TestCase):
         board = Board()
         board.set_piece(0, 0, Rook("WHITE", board))
         board.set_piece(0, 1, Rook("WHITE", board))
-        board.set_piece(1, 0, Pawn("BLACK", board))
-        board.set_piece(1, 1, Pawn("BLACK", board))
+        board.set_piece(1, 0, Pawn("WHITE", board))  # Cambié a peones blancos
+        board.set_piece(1, 1, Pawn("WHITE", board))  # Cambié a peones blancos
         expected_str = (
             "♖ ♖ . . . . . .\n"
             "♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙\n"
@@ -38,11 +38,11 @@ class TestBoard(unittest.TestCase):
         board.set_piece(0, 0, rook)
         board.move_piece(0, 0, 4, 4)
         expected_str = (
-            ". . . . ♖ . . .\n"
             ". . . . . . . .\n"
             ". . . . . . . .\n"
             ". . . . . . . .\n"
-            "♖ . . . . . . .\n"
+            ". . . . . . . .\n"
+            ". . . . ♖ . . .\n"  # Actualización aquí
             ". . . . . . . .\n"
             ". . . . . . . .\n"
             ". . . . . . . ."
