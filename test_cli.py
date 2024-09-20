@@ -1,56 +1,71 @@
 import unittest
-from unittest.mock import patch, call
+from unittest.mock import patch
+from cli import play, InvalidMove
 from chess import Chess
-from cli import play
 
 class TestCli(unittest.TestCase):
-    @patch('builtins.input', side_effect=['1', '1', '2', '2'])
-    @patch('builtins.print')
-    @patch.object(Chess, 'move')
-    def test_happy_path(self, mock_chess_move, mock_print, mock_input):
-        chess = Chess()
-        play(chess)
-        
-        # Verificación de la cantidad de llamadas
-        self.assertEqual(mock_input.call_count, 4)
-        self.assertEqual(mock_print.call_count, 1)  # Solo un mensaje de éxito
-        self.assertEqual(mock_chess_move.call_count, 1)
-        
-        # Verificación de argumentos pasados a Chess.move
-        self.assertEqual(mock_chess_move.call_args[0], (1, 1, 2, 2))
-        
-        # Verificación de mensajes impresos
-        self.assertIn(call("Move successful"), mock_print.mock_calls)
 
-    @patch('builtins.input', side_effect=['hola', '1', '2', '2'])
-    @patch('builtins.print')
-    @patch.object(Chess, 'move')
-    def test_not_happy_path(self, mock_chess_move, mock_print, mock_input):
-        chess = Chess()
-        play(chess)
-        
-        # Verificación de la cantidad de llamadas
-        self.assertEqual(mock_input.call_count, 1)
-        self.assertEqual(mock_print.call_count, 1)  # Solo un mensaje de error
-        self.assertEqual(mock_chess_move.call_count, 0)
-        
-        # Verificación de mensajes impresos
-        self.assertIn(call("Invalid input. Please enter a valid move."), mock_print.mock_calls)
+    # USER INPUTS FOR MOVING FROM ROW,COL TO ROW,COL
 
-    @patch('builtins.input', side_effect=['1', '1', '2', 'hola'])
+    @patch('builtins.input',side_effect=['1','1','2','2'])
     @patch('builtins.print')
-    @patch.object(Chess, 'move')
-    def test_more_not_happy_path(self, mock_chess_move, mock_print, mock_input):
-        chess = Chess()
+    @patch.object(Chess,'move')
+    def test_happy_path(self,mock_chess_move,mock_print,mock_input):
+        chess=Chess()
         play(chess)
-        
-        # Verificación de la cantidad de llamadas
-        self.assertEqual(mock_input.call_count, 4)
-        self.assertEqual(mock_print.call_count, 1)  # Solo un mensaje de error final
-        self.assertEqual(mock_chess_move.call_count, 0)
-        
-        # Verificación de mensajes impresos
-        self.assertIn(call("Invalid input. Please enter a valid move."), mock_print.mock_calls)
+        self.assertEqual(mock_input.call_count,4)
+        self.assertEqual(mock_print.call_count,2)
+        self.assertEqual(mock_chess_move.call_count,1)
 
-if __name__ == '__main__':
+    @patch('builtins.input',side_effect=['hola','1','2','2'])
+    @patch('builtins.print')
+    @patch.object(Chess,'move')
+    def test_wrong_entry_1(self,mock_chess_move,mock_print,mock_input):
+        chess=Chess()
+        play(chess)
+        self.assertEqual(mock_input.call_count,1)
+        self.assertEqual(mock_print.call_count,3)
+        self.assertEqual(mock_chess_move.call_count,0)
+
+    @patch('builtins.input',side_effect=['1','hola','2','2'])
+    @patch('builtins.print')
+    @patch.object(Chess,'move')
+    def test_wrong_entry_2(self,mock_chess_move,mock_print,mock_input):
+        chess=Chess()
+        play(chess)
+        self.assertEqual(mock_input.call_count,2)
+        self.assertEqual(mock_print.call_count,3)
+        self.assertEqual(mock_chess_move.call_count,0)
+
+    @patch('builtins.input',side_effect=['1','1','hola','2'])
+    @patch('builtins.print')
+    @patch.object(Chess,'move')
+    def test_wrong_entry_3(self,mock_chess_move,mock_print,mock_input):
+        chess=Chess()
+        play(chess)
+        self.assertEqual(mock_input.call_count,3)
+        self.assertEqual(mock_print.call_count,3)
+        self.assertEqual(mock_chess_move.call_count,0)
+
+    @patch('builtins.input',side_effect=['1','1','2','hola'])
+    @patch('builtins.print')
+    @patch.object(Chess,'move')
+    def test_wrong_entry_4(self,mock_chess_move,mock_print,mock_input):
+        chess=Chess()
+        play(chess)
+        self.assertEqual(mock_input.call_count,4)
+        self.assertEqual(mock_print.call_count,3)
+        self.assertEqual(mock_chess_move.call_count,0)
+
+    @patch('builtins.input',side_effect=['1','1','2','2'])
+    @patch('builtins.print')
+    @patch.object(Chess,'move',side_effect=InvalidMove())
+    def test_invalid_move(self,mock_chess_move,mock_print,mock_input):
+        chess=Chess()
+        play(chess)
+        self.assertEqual(mock_input.call_count,4)
+        self.assertEqual(mock_print.call_count,3)
+        self.assertEqual(mock_chess_move.call_count,1)
+
+if __name__=='__main__':
     unittest.main()
