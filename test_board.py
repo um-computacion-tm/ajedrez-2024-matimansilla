@@ -1,17 +1,17 @@
 import unittest
 from board import Board
-from pieces import Rook, Pawn, Knight
+from pieces import Rook, Pawn
 
 class TestBoard(unittest.TestCase):
     def test_str_board(self):
         board = Board()
         board.set_piece(0, 0, Rook("WHITE", board))
         board.set_piece(0, 1, Rook("WHITE", board))
-        board.set_piece(1, 0, Pawn("WHITE", board))  # Cambié a peones blancos
-        board.set_piece(1, 1, Pawn("WHITE", board))  # Cambié a peones blancos
+        board.set_piece(1, 0, Pawn("WHITE", board))
+        board.set_piece(1, 1, Pawn("WHITE", board))
         expected_str = (
             "♖ ♖ . . . . . .\n"
-            "♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙\n"
+            "♙ ♙ . . . . . .\n"
             ". . . . . . . .\n"
             ". . . . . . . .\n"
             ". . . . . . . .\n"
@@ -36,13 +36,13 @@ class TestBoard(unittest.TestCase):
         board = Board()
         rook = Rook("WHITE", board)
         board.set_piece(0, 0, rook)
-        board.move_piece(0, 0, 4, 4)
+        board.move(0, 0, 4, 4)  # Cambié de move_piece a move
         expected_str = (
             ". . . . . . . .\n"
             ". . . . . . . .\n"
             ". . . . . . . .\n"
             ". . . . . . . .\n"
-            ". . . . ♖ . . .\n"  # Actualización aquí
+            ". . . . ♖ . . .\n"
             ". . . . . . . .\n"
             ". . . . . . . .\n"
             ". . . . . . . ."
@@ -54,7 +54,7 @@ class TestBoard(unittest.TestCase):
         rook = Rook("WHITE", board)
         board.set_piece(0, 0, rook)
         self.assertIsInstance(board.get_piece(0, 0), Rook)
-        board.set_piece(0, 0, None)  # Eliminar la pieza
+        board.set_piece(0, 0, None)
         self.assertIsNone(board.get_piece(0, 0))
 
 if __name__ == '__main__':
