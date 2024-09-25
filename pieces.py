@@ -18,6 +18,9 @@ class Piece:
         """Devuelve el símbolo de la pieza."""
         return str(self)
 
+    def possible_moves(self):
+        """Método base para obtener movimientos posibles (a ser sobrescrito por las piezas específicas)."""
+        raise NotImplementedError("Este método debe ser sobrescrito por cada pieza.")
 
 class Rook(Piece):
     white_str = "♖"
@@ -25,6 +28,11 @@ class Rook(Piece):
 
     def __init__(self, color, board):
         super().__init__(color, board)
+
+    def possible_moves(self):
+        """Devuelve una lista de posibles movimientos para la torre."""
+        return self.__board__.possible_positions_vd(self.position) + \
+               self.__board__.possible_positions_va(self.position)
 
 
 class Pawn(Piece):
@@ -34,6 +42,11 @@ class Pawn(Piece):
     def __init__(self, color, board):
         super().__init__(color, board)
 
+    def possible_moves(self):
+        """Devuelve una lista de posibles movimientos para el peón."""
+        # Lógica específica del peón
+        return []  # Ejemplo simplificado
+
 
 class Knight(Piece):
     white_str = "♘"
@@ -41,3 +54,8 @@ class Knight(Piece):
 
     def __init__(self, color, board):
         super().__init__(color, board)
+
+    def possible_moves(self):
+        """Devuelve una lista de posibles movimientos para el caballo."""
+        # Lógica específica del caballo
+        return []  # Ejemplo simplificado
