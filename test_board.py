@@ -15,14 +15,14 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(
             str(board),
             (
-                "♖      ♖\n"
-                "♙♙♙♙♙♙♙♙\n"
-                "        \n"
-                "        \n"
-                "        \n"
-                "        \n"
+                "♜......♜\n"
                 "♟♟♟♟♟♟♟♟\n"
-                "♜      ♜\n"
+                "........\n"
+                "........\n"
+                "........\n"
+                "........\n"
+                "♙♙♙♙♙♙♙♙\n"
+                "♖......♖\n"
             )
         )
 
@@ -40,7 +40,7 @@ class TestBoard(unittest.TestCase):
             board.get_piece(10, 10)
         self.assertEqual(
             exc.exception.message,
-            "La posición indicada se encuentra fuera del tablero"
+            "La posición (10, 10) se encuentra fuera del tablero."
         )
 
     def test_get_piece_out_of_range_row(self):
@@ -49,7 +49,7 @@ class TestBoard(unittest.TestCase):
             board.get_piece(10, 0)
         self.assertEqual(
             exc.exception.message,
-            "La Fila indicada se encuentra fuera del tablero"
+            "La fila indicada se encuentra fuera del tablero."
         )
 
     def test_get_piece_out_of_range_col(self):
@@ -58,7 +58,7 @@ class TestBoard(unittest.TestCase):
             board.get_piece(0, 10)
         self.assertEqual(
             exc.exception.message,
-            "La Columna indicada se encuentra fuera del tablero"
+            "La columna indicada se encuentra fuera del tablero."
         )
 
     # SET_PIECE METHOD
@@ -76,7 +76,7 @@ class TestBoard(unittest.TestCase):
             board.set_piece(10, 10, rook)
         self.assertEqual(
             exc.exception.message,
-            "La posición indicada se encuentra fuera del tablero"
+            "La posición (10, 10) se encuentra fuera del tablero."
         )
 
     def test_set_piece_out_of_range_row(self):
@@ -86,7 +86,7 @@ class TestBoard(unittest.TestCase):
             board.set_piece(10, 0, rook)
         self.assertEqual(
             exc.exception.message,
-            "La Fila indicada se encuentra fuera del tablero"
+            "La fila indicada se encuentra fuera del tablero."
         )
 
     def test_set_piece_out_of_range_col(self):
@@ -96,7 +96,7 @@ class TestBoard(unittest.TestCase):
             board.set_piece(0, 10, rook)
         self.assertEqual(
             exc.exception.message,
-            "La Columna indicada se encuentra fuera del tablero"
+            "La columna indicada se encuentra fuera del tablero."
         )
 
     # PUTTING ROOKS ON THE BOARD WHEN STARTING THE GAME
@@ -105,13 +105,13 @@ class TestBoard(unittest.TestCase):
         board = Board()
         board.rook_positions()  # Coloca las torres
         self.assertIsInstance(board.get_piece(0, 0), Rook)
-        self.assertEqual(board.get_piece(0, 0).__color__, 'BLACK')
+        self.assertEqual(board.get_piece(0, 0).color, 'BLACK')  # Cambiado a color
         self.assertIsInstance(board.get_piece(0, 7), Rook)
-        self.assertEqual(board.get_piece(0, 7).__color__, 'BLACK')
+        self.assertEqual(board.get_piece(0, 7).color, 'BLACK')  # Cambiado a color
         self.assertIsInstance(board.get_piece(7, 0), Rook)
-        self.assertEqual(board.get_piece(7, 0).__color__, 'WHITE')
+        self.assertEqual(board.get_piece(7, 0).color, 'WHITE')  # Cambiado a color
         self.assertIsInstance(board.get_piece(7, 7), Rook)
-        self.assertEqual(board.get_piece(7, 7).__color__, 'WHITE')
+        self.assertEqual(board.get_piece(7, 7).color, 'WHITE')  # Cambiado a color
 
     # PUTTING PAWNS ON THE BOARD WHEN STARTING THE GAME
 
@@ -119,9 +119,9 @@ class TestBoard(unittest.TestCase):
         board = Board()
         board.pawn_positions()  # Coloca los peones
         self.assertIsInstance(board.get_piece(1, 0), Pawn)
-        self.assertEqual(board.get_piece(1, 0).__color__, 'BLACK')
+        self.assertEqual(board.get_piece(1, 0).color, 'BLACK')  # Cambiado a color
         self.assertIsInstance(board.get_piece(6, 0), Pawn)
-        self.assertEqual(board.get_piece(6, 0).__color__, 'WHITE')
+        self.assertEqual(board.get_piece(6, 0).color, 'WHITE')  # Cambiado a color
 
     # EMPTY SPACES ON THE BOARD WHEN STARTING THE GAME
 
@@ -156,7 +156,6 @@ class TestBoard(unittest.TestCase):
                 ". . . . . . . . \n"
             )
         )
-
 
 if __name__ == '__main__':
     unittest.main()
