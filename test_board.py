@@ -10,7 +10,7 @@ class TestBoard(unittest.TestCase):
 
     def test_str_board(self):
         board = Board()
-        board.rook_positions()  # Asegúrate de colocar las piezas antes de la prueba
+        board.rook_positions()  # Coloca las torres en el tablero
         board.pawn_positions()  # Coloca los peones en el tablero
         self.assertEqual(
             str(board),
@@ -22,7 +22,7 @@ class TestBoard(unittest.TestCase):
                 "........\n"
                 "........\n"
                 "♙♙♙♙♙♙♙♙\n"
-                "♖......♖\n"
+                "♖......♖\n"  # Añadido el salto de línea final
             )
         )
 
@@ -105,13 +105,13 @@ class TestBoard(unittest.TestCase):
         board = Board()
         board.rook_positions()  # Coloca las torres
         self.assertIsInstance(board.get_piece(0, 0), Rook)
-        self.assertEqual(board.get_piece(0, 0).color, 'BLACK')  # Cambiado a color
+        self.assertEqual(board.get_piece(0, 0).color, 'BLACK')
         self.assertIsInstance(board.get_piece(0, 7), Rook)
-        self.assertEqual(board.get_piece(0, 7).color, 'BLACK')  # Cambiado a color
+        self.assertEqual(board.get_piece(0, 7).color, 'BLACK')
         self.assertIsInstance(board.get_piece(7, 0), Rook)
-        self.assertEqual(board.get_piece(7, 0).color, 'WHITE')  # Cambiado a color
+        self.assertEqual(board.get_piece(7, 0).color, 'WHITE')
         self.assertIsInstance(board.get_piece(7, 7), Rook)
-        self.assertEqual(board.get_piece(7, 7).color, 'WHITE')  # Cambiado a color
+        self.assertEqual(board.get_piece(7, 7).color, 'WHITE')
 
     # PUTTING PAWNS ON THE BOARD WHEN STARTING THE GAME
 
@@ -119,9 +119,9 @@ class TestBoard(unittest.TestCase):
         board = Board()
         board.pawn_positions()  # Coloca los peones
         self.assertIsInstance(board.get_piece(1, 0), Pawn)
-        self.assertEqual(board.get_piece(1, 0).color, 'BLACK')  # Cambiado a color
+        self.assertEqual(board.get_piece(1, 0).color, 'BLACK')
         self.assertIsInstance(board.get_piece(6, 0), Pawn)
-        self.assertEqual(board.get_piece(6, 0).color, 'WHITE')  # Cambiado a color
+        self.assertEqual(board.get_piece(6, 0).color, 'WHITE')
 
     # EMPTY SPACES ON THE BOARD WHEN STARTING THE GAME
 
@@ -138,24 +138,21 @@ class TestBoard(unittest.TestCase):
         board.set_piece(0, 0, rook)
         board.move(0, 0, 0, 1)
 
-        self.assertIsInstance(
-            board.get_piece(0, 1),
-            Rook
-        )
-
+        self.assertIsInstance(board.get_piece(0, 1), Rook)
         self.assertEqual(
             str(board),
             (
-                ". ♖      \n"
-                ". . . . . . . . \n"
-                ". . . . . . . . \n"
-                ". . . . . . . . \n"
-                ". . . . . . . . \n"
-                ". . . . . . . . \n"
-                ". . . . . . . . \n"
-                ". . . . . . . . \n"
-            )
+                ".♜.....♜\n"
+                "♟♟♟♟♟♟♟♟\n"
+                "........\n"
+                "........\n"
+                "........\n"
+                "........\n"
+                "♙♙♙♙♙♙♙♙\n"
+                "♖......♖\n"
+            )  # Actualizado el formato del tablero
         )
+
 
 if __name__ == '__main__':
     unittest.main()
