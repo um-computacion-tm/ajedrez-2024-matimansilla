@@ -149,8 +149,8 @@ class TestBoard(unittest.TestCase):
                 "........\n"
                 "........\n"
                 "♙♙♙♙♙♙♙♙\n"
-                "♖......♖\n"
-            )  # Actualizado el formato del tablero
+                "♖......♖\n"  # Actualizado el formato del tablero
+            )  # Actualizado el salto de línea final
         )
 
 
