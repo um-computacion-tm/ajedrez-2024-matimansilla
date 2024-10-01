@@ -45,7 +45,7 @@ class Board:
 
     def rook_positions(self):
         """Coloca las torres (rooks) en sus posiciones iniciales."""
-        self.set_piece(0, 0, Rook("BLACK", self))
+        self.set_piece(0, 0, Rook("BLACK", self))  # Se pasa 'self' como argumento
         self.set_piece(0, 7, Rook("BLACK", self))
         self.set_piece(7, 0, Rook("WHITE", self))
         self.set_piece(7, 7, Rook("WHITE", self))

@@ -1,81 +1,78 @@
 import unittest
-from rook import Rook
 from board import Board
-from pawn import Pawn
+from rook import Rook
+from exceptions import InvalidMoveRookMove
 
 class TestRook(unittest.TestCase):
 
-    def test_str(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        self.assertEqual(str(rook), "♖")  # El símbolo para la torre blanca es ♖.
+    def setUp(self):
+        self.board = Board()
 
     def test_move_vertical_desc(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)  # Colocamos la torre en el tablero en la posición inicial.
+        rook = Rook(white=True)
+        self.board.place_piece(rook, 4, 1)
         possibles = rook.possible_positions_vd(4, 1)
-        self.assertEqual(possibles, [(5, 1), (6, 1), (7, 1)])  # Movimientos válidos hacia abajo.
+        self.assertEqual(possibles, [(3, 1), (2, 1), (1, 1), (0, 1)])
 
     def test_move_vertical_asc(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)  # Colocamos la torre en el tablero en la posición inicial.
+        rook = Rook(white=True)
+        self.board.place_piece(rook, 4, 1)
         possibles = rook.possible_positions_va(4, 1)
-        self.assertEqual(possibles, [(3, 1), (2, 1), (1, 1), (0, 1)])  # Movimientos válidos hacia arriba.
+        self.assertEqual(possibles, [(5, 1), (6, 1), (7, 1)])
 
     def test_move_vertical_desc_with_own_piece(self):
-        board = Board()
-        board.set_piece(6, 1, Pawn("WHITE", board))  # Colocamos un peón blanco en la trayectoria.
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)  # Colocamos la torre en el tablero.
+        rook = Rook(white=True)
+        pawn = Rook(white=True)  # Usamos una torre blanca como obstrucción
+        self.board.place_piece(rook, 4, 1)
+        self.board.place_piece(pawn, 2, 1)
         possibles = rook.possible_positions_vd(4, 1)
-        self.assertEqual(possibles, [(5, 1)])  # La torre no debe saltar ni capturar piezas del mismo color.
+        self.assertEqual(possibles, [(3, 1)])
 
     def test_move_vertical_desc_with_not_own_piece(self):
-        board = Board()
-        board.set_piece(6, 1, Pawn("BLACK", board))  # Colocamos un peón negro en la trayectoria.
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)  # Colocamos la torre en el tablero.
+        rook = Rook(white=True)
+        pawn = Rook(white=False)  # Usamos una torre negra como obstrucción
+        self.board.place_piece(rook, 4, 1)
+        self.board.place_piece(pawn, 2, 1)
         possibles = rook.possible_positions_vd(4, 1)
-        self.assertEqual(possibles, [(5, 1), (6, 1)])  # La torre puede capturar la pieza enemiga.
+        self.assertEqual(possibles, [(3, 1), (2, 1)])
 
     def test_move_horizontal_right(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)  # Colocamos la torre en la posición inicial.
-        possibles = rook.possible_positions_hr(4, 1)  # Movimientos horizontales a la derecha.
-        self.assertEqual(possibles, [(4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7)])  # Movimientos válidos.
-
-    def test_move_horizontal_left(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 4, rook)  # Colocamos la torre en la posición inicial.
-        possibles = rook.possible_positions_hl(4, 4)  # Movimientos horizontales a la izquierda.
-        self.assertEqual(possibles, [(4, 3), (4, 2), (4, 1), (4, 0)])  # Movimientos válidos.
+        rook = Rook(white=True)
+        self.board.place_piece(rook, 4, 1)
+        possibles = rook.possible_positions_hr(4, 1)
+        self.assertEqual(possibles, [(4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7)])
 
     def test_move_horizontal_right_with_own_piece(self):
-        board = Board()
-        board.set_piece(4, 3, Pawn("WHITE", board))  # Colocamos un peón blanco en la trayectoria.
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)  # Colocamos la torre en el tablero.
+        rook = Rook(white=True)
+        pawn = Rook(white=True)
+        self.board.place_piece(rook, 4, 1)
+        self.board.place_piece(pawn, 4, 3)
         possibles = rook.possible_positions_hr(4, 1)
-        self.assertEqual(possibles, [(4, 2)])  # La torre no debe saltar ni capturar piezas del mismo color.
+        self.assertEqual(possibles, [(4, 2)])
 
     def test_move_horizontal_right_with_not_own_piece(self):
-        board = Board()
-        board.set_piece(4, 3, Pawn("BLACK", board))  # Colocamos un peón negro en la trayectoria.
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)  # Colocamos la torre en el tablero.
+        rook = Rook(white=True)
+        pawn = Rook(white=False)
+        self.board.place_piece(rook, 4, 1)
+        self.board.place_piece(pawn, 4, 3)
         possibles = rook.possible_positions_hr(4, 1)
-        self.assertEqual(possibles, [(4, 2), (4, 3)])  # La torre puede capturar la pieza enemiga.
+        self.assertEqual(possibles, [(4, 2), (4, 3)])
+
+    def test_move_horizontal_left(self):
+        rook = Rook(white=True)
+        self.board.place_piece(rook, 4, 4)
+        possibles = rook.possible_positions_hl(4, 4)
+        self.assertEqual(possibles, [(4, 3), (4, 2), (4, 1), (4, 0)])
 
     def test_move_diagonal(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        board.set_piece(0, 0, rook)  # Colocamos la torre en la esquina del tablero.
-        is_possible = rook.valid_positions(0, 0, 1, 1)  # Intentamos mover la torre diagonalmente.
-        self.assertFalse(is_possible)  # Las torres no pueden moverse en diagonal.
+        rook = Rook(white=True)
+        self.board.place_piece(rook, 0, 0)
+        with self.assertRaises(InvalidMoveRookMove):
+            is_possible = rook.valid_positions(0, 0, 1, 1)  # Intentamos mover la torre diagonalmente.
 
-if __name__ == "__main__":
+    def test_str(self):
+        rook = Rook(white=True)
+        self.assertEqual(str(rook), "♖")  # El símbolo para la torre blanca es ♖.
+
+if __name__ == '__main__':
     unittest.main()
