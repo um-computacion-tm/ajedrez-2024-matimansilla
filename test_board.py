@@ -68,6 +68,7 @@ class TestBoard(unittest.TestCase):
         rook = Rook('BLACK', board)
         board.set_piece(0, 0, rook)
         self.assertIsInstance(board.get_piece(0, 0), Rook)
+        self.assertEqual(board.get_piece(0, 0).color, 'BLACK')
 
     def test_set_piece_out_of_range_row_and_col(self):
         board = Board()
@@ -139,6 +140,9 @@ class TestBoard(unittest.TestCase):
         board.move(0, 0, 0, 1)
 
         self.assertIsInstance(board.get_piece(0, 1), Rook)
+        self.assertEqual(board.get_piece(0, 1).color, 'BLACK')
+        self.assertIsNone(board.get_piece(0, 0))  # Verificación de que la posición inicial queda vacía
+
         self.assertEqual(
             str(board),
             (
@@ -150,7 +154,7 @@ class TestBoard(unittest.TestCase):
                 "........\n"
                 "♙♙♙♙♙♙♙♙\n"
                 "♖......♖\n"  # Actualizado el formato del tablero
-            )  # Actualizado el salto de línea final
+            )
         )
 
 
