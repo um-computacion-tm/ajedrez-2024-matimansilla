@@ -1,28 +1,26 @@
 class InvalidMove(Exception):
-    message = "Movimiento inválido en el tablero"
+    message = "Movimiento de pieza invalido"
+    
     def __str__(self):
         return self.message
-
-
-class InvalidTurn(InvalidMove):
-    message = "No es tu turno para mover esa pieza"
-
-
-class EmptyPosition(InvalidMove):
-    message = "No hay pieza en la posición seleccionada"
-
+    
+class InvalidMoveNoPiece(InvalidMove):
+    ...
 
 class InvalidMoveRookMove(InvalidMove):
-    message = "Movimiento ilegal para la torre en esa dirección"
+    ...
 
+class InvalidTurn(InvalidMove):
+    message = "No puedes mover pieza de otro jugador"
+
+class EmptyPosition(InvalidMove):
+    message = "La posicion esta vacia"
 
 class OutOfBoard(InvalidMove):
-    message = "La posición indicada se encuentra fuera del tablero"
-
+    message = "La posicion indicada se encuentra fuera del tablero"
 
 class RowOutOfBoard(OutOfBoard):
-    message = "La Fila indicada se encuentra fuera del tablero"
-
+    message = "La posicion indicada se encuentra fuera del tablero"  
 
 class ColumnOutOfBoard(OutOfBoard):
-    message = "La Columna indicada se encuentra fuera del tablero"
+    message = "La posicion indicada se encuentra fuera del tablero" 
