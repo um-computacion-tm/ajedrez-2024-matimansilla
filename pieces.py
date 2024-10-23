@@ -1,5 +1,5 @@
-from chess.pieces import Piece
-from chess.queen import Queen
+from pieces import Piece
+from queen import Queen
 
 class Pawn(Piece):
     white_str = "♙"

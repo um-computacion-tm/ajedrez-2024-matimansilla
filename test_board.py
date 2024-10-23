@@ -1,9 +1,6 @@
-import sys
-import os
 import unittest
 
-# Asegura que se puedan importar correctamente los módulos en directorios superiores
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 from board import Board
 from pieces import Pawn
