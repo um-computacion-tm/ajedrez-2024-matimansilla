@@ -2,19 +2,17 @@ from chess.pieces import Piece
 from chess.queen import Queen
 
 class Pawn(Piece):
-    white_str = "♙"
-    black_str = "♟"
 
     def __init__(self, color, board):
         super().__init__(color, board)  
 
     def symbol(self):
-        return self.white_str if self.get_color() == 'WHITE' else self.black_str
+        return '♙' if self.get_color() == 'WHITE' else '♟'
 
     def valid_positions(self, from_row, from_col, to_row, to_col):
         possible_moves = self.get_possible_moves(from_row, from_col)
         return any(move == (to_row, to_col) for move in possible_moves)
-
+        
     def get_possible_moves(self, from_row, from_col):
         moves = []
         direction = self.get_move_direction() 
@@ -27,7 +25,7 @@ class Pawn(Piece):
         start_row = self.get_start_row()
         if self.is_empty(from_row + direction, from_col):
             moves.append((from_row + direction, from_col))
-            if from_row == start_row and self.is_empty(from_row + 2 * direction, from_col):
+            if from_row == start_row and self.is_empty(from_row + 2 * direction, from_col):  # Corregido aquí
                 moves.append((from_row + 2 * direction, from_col))
 
     def add_capture_moves(self, from_row, from_col, direction, moves):
@@ -52,43 +50,3 @@ class Pawn(Piece):
     def can_capture(self, row, col):
         piece = self.__board__.get_piece(row, col)
         return piece is not None and piece.get_color() != self.get_color()
-
-
-class Piece:
-    def __init__(self, color, board):
-        self.color = color
-        self.__board__ = board
-        self.position = None
-
-    def __str__(self):
-        return self.white_str if self.color == "WHITE" else self.black_str
-
-    def set_position(self, row, col):
-        self.position = (row, col)
-
-    def symbol(self):
-        return str(self)
-
-    def possible_moves(self):
-        raise NotImplementedError("Este método debe ser sobrescrito por cada pieza.")
-
-class Rook(Piece):
-    white_str = "♖"
-    black_str = "♜"
-
-    def __init__(self, color, board):
-        super().__init__(color, board)
-
-    def possible_moves(self):
-        return self.__board__.possible_positions_vd(self.position) + \
-               self.__board__.possible_positions_va(self.position)
-
-class Knight(Piece):
-    white_str = "♘"
-    black_str = "♞"
-
-    def __init__(self, color, board):
-        super().__init__(color, board)
-
-    def possible_moves(self):
-        return []  # Ejemplo simplificado
