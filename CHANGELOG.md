@@ -6,134 +6,158 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [1.0.0] - 2024-10-14
+## [0.40.0] - 2024-10-16
 ### Fixed
-- Chess game is finished!!!!!
+- Fixed rook testing.
 
-## [0.33.0] - 2024-10-13
+## [0.39.0] - 2024-10-14
 ### Fixed
-- Fixed CodeClimate issues and finished testing
+- Fixed board.
+
+## [0.38.0] - 2024-10-08
+### Fixed
+- Fixed rook.
+
+## [0.37.0] - 2024-10-04
+### Fixed
+- Fixed knight.
+
+## [0.36.0] - 2024-10-03
+### Fixed
+- Fixed bishop, esxceptions.
+
+## [0.35.0] - 2024-10-02
+### Fixed
+- Fixed king, queen and board testing.
+
+## [0.34.0] - 2024-10-01
+### Fixed
+- Fixed pawn.
+
+## [0.33.0] - 2024-09-30
+### Fixed
+- Fixed board, rook and rook testing.
 
 
-## [0.32.0] - 2024-10-08
+## [0.32.0] - 2024-09-29
+### Fixed
+- Rook movements and rook testing for horizontal and vertical movements.
+
+## [0.36.0] - 2024-09-27
+### Fixed
+- Fixed board format.
+
+## [0.35.0] - 2024-09-26
+### Fixed
+- Fixed board testing.
+
+## [0.34.0] - 2024-09-25
 ### Added
-- Rook and Pawn testing and implementation
+- Added bishop, king and queen.
 
-## [0.36.0] - 2024-10-06
 ### Fixed
-- Fixed Exceptions
+- Fixed board testing.
 
-## [0.35.0] - 2024-10-05
+## [0.33.0] - 2024-09-24
 ### Fixed
-- Refactor chess move validations
-- Tested chess 
+- Fixed exceptions, pieces and board.
 
-## [0.34.0] - 2024-10-03
-### Added
-- Added tests to board implementation
-
-## [0.33.0] - 2024-10-02
-### Added
-- Added chess testing to move validations in chess
-
-## [0.32.0] - 2024-10-01
-### Added
-- Added score attribute to piece implementation and get_score method
-- Added piece score to board testing and implementation
-
-## [0.31.0] - 2024-09-30
+## [0.32.0] - 2024-09-23
 ### Fixed
-- Rook implementation
-- Rook testing
+- Fixed board and board testing.
 
-## [0.30.0] - 2024-09-28
-### Added
-- Added testing to new chess implementation
-
-## [0.29.0] - 2024-09-28
+## [0.31.0] - 2024-09-22
 ### Fixed
-- Fixed Chess - added validations to move method in chess
+- Fixed board testing.
 
-## [0.28.0] - 2024-09-27
+## [0.30.0] - 2024-09-20
 ### Fixed
-- Refactor Chess 
+- Fixed board and board testing.
 
-## [0.27.0] - 2024-09-26
+## [0.29.0] - 2024-09-19
 ### Fixed
-- Board implementation 
+- Fixed Cli testing.
 
-## [0.26.0] - 2024-09-20
-### Added
-- Player implementation
+## [0.28.0] - 2024-09-18
+### Fixed
+- Fixed rook movements. 
+
+## [0.27.0] - 2024-09-17
+### Fixed
+- Fixed Board implementation, pieces and board testing. 
+
+## [0.26.0] - 2024-09-16
+### Fixed
+- Fixed rook testing
 
 ## [0.25.0] - 2024-09-15
 ### Fixed
-- Board implementation
-- Board testing
+- Fixed rook and rook testing.
 
-
-## [0.24.0] - 2024-09-10
+## [0.24.0] - 2024-09-14
 ### Fixed
-- Board testing
-- Chess testing
-- CLI testing
-- Rook testing
+- Fixed Board testing, board and rook.
 
-## [0.23.0] - 2024-09-08
+## [0.23.0] - 2024-09-13
 ### Fixed
-- Fixed board and cli implementation.
-- Fixed OutOfBoard exception message
+- Fixed pieces and rook implementation and rook testing.
 
-## [0.22.0] - 2024-09-07
+## [0.22.0] - 2024-09-12
 ### Added
-- Added piece out of board exception.
+- Added kinght.
+
+### Fixed
+- Fixed pieces
 
 ## [0.21.0] - 2024-09-06
-### Added
-- Added chess exceptions.
+### Fixed
+- Fixed chess and cli.
 
-## [0.20.0] - 2024-09-05
-### Added
-- Added get color method in board.
+## [0.20.0] - 2024-09-04
+### Fixed
+- Fixed all errors in board, pieces, rook and rook testing.
 
-## [0.19.0] - 2024-09-04
-### Added
-- Added move method in board.
+## [0.19.0] - 2024-09-03
+### Fixed
+- Fixed Board, pieces and rook testing.
 
-## [0.18.0] - 2024-09-03
-### Added
-- Added bishop movements and testing.
+## [0.18.0] - 2024-09-02
+### Fixed
+- Fixed Board, pieces, rook and rook testing.
 
-## [0.17.0] - 2024-09-02
-### Added
-- Tested piece implementation.
+## [0.17.0] - 2024-09-01
+### Fixed
+- Fixed Board, pieces, rook and rook testing.
 
-## [0.16.0] - 2024-09-01
-### Added
-- Added tower movements and testing.
+## [0.16.0] - 2024-08-30
+### Fixed
+- Fixed Board, cli, pieces, board testing, cli testing and rook testing.
 
 ## [0.15.0] - 2024-08-29
 ### Fixed
-- Fixed board and added pieces in initial position.
+- Fixed board, pieces, rook and cli testing.
 
 ### Added
 - Added rook testing
 
-## [0.14.0] - 2024-08-27
+## [0.14.0] - 2024-08-28
 ### Added
-- Implemented rook vertical movement
+- Added Exceptions
 
-## [0.13.0] - 2024-08-25
 ### Fixed
-- Fixed board testing and added place piece method in board file.
+- Fixed Board, cli, pieces, board testing and cli testing.
 
-## [0.120] - 2024-08-24
+## [0.13.0] - 2024-08-27
 ### Fixed
-- Fixed validate_input method in chess file and tested cli.
+- Fixed rook testing and pieces.
+
+## [0.120] - 2024-08-26
+### Fixed
+- Fixed pieces.
 
 ## [0.11.0] - 2024-08-24
 ### Added
-- Added is_playing and board_display testing to chess implementation.
+- Fixed board, pieces, rook and board testing.
 
 
 ## [0.10.0] - 2024-08-23

@@ -1,48 +1,52 @@
-from pieces import Piece
+from chess.pieces import Piece
+from chess.queen import Queen
 
 class Pawn(Piece):
-    white_str='♟'
-    black_str='♙'
 
-    # POSSIBLE POSITIONS TO MOVE PAWN INCLUDIONG MOVE AND EAT
-    
-    def valid_positions(self,from_row,from_col):
-        possible_positions=self.possible_positions_move(from_row, from_col)+self.possible_positions_eat(from_row, from_col)
-        return possible_positions
-   
-    # PAWN EATING A PIECE
+    def __init__(self, color, board):
+        super().__init__(color, board)  
 
-    def possible_positions_eat(self, from_row, from_col):
-        possible=[]
-        if self.__color__ == "BLACK":
-            other_piece_right = self.__board__.get_piece(from_row + 1, from_col + 1)
-            other_piece_left = self.__board__.get_piece(from_row + 1, from_col - 1)
-            if other_piece_right is not None and other_piece_right.__color__ == "WHITE":
-                possible.append((from_row+1,from_col+1))
-            if other_piece_left is not None and other_piece_left.__color__=='WHITE':
-                possible.append((from_row+1,from_col-1))
-        elif self.__color__=='WHITE':
-            other_piece_right = self.__board__.get_piece(from_row - 1, from_col + 1)
-            other_piece_left = self.__board__.get_piece(from_row - 1, from_col - 1)
-            if other_piece_right is not None and other_piece_right.__color__ == "BLACK":
-                possible.append((from_row-1,from_col+1))
-            if other_piece_left is not None and other_piece_left.__color__=='BLACK':
-                possible.append((from_row-1,from_col-1))
-        return possible
-    
+    def symbol(self):
+        return '♙' if self.get_color() == 'WHITE' else '♟'
 
-    # MOVING A PAWN RULES
+    def valid_positions(self, from_row, from_col, to_row, to_col):
+        possible_moves = self.get_possible_moves(from_row, from_col)
+        return any(move == (to_row, to_col) for move in possible_moves)
+        
+    def get_possible_moves(self, from_row, from_col):
+        moves = []
+        direction = self.get_move_direction() 
+        start_row = self.get_start_row()      
+        self.add_forward_moves(from_row, from_col, direction, moves)
+        self.add_capture_moves(from_row, from_col, direction, moves)
+        return moves
 
-    def possible_positions_move(self, from_row, from_col):
-        if self.__color__ == "BLACK":
-            if self.__board__.get_piece(from_row + 1, from_col) is None:
-                if from_row == 1 and self.__board__.get_piece(from_row + 2, from_col) is None:
-                    return [(from_row + 1, from_col),(from_row + 2, from_col)]
-                else: return [(from_row + 1, from_col)]
-            else: return []
-        else:
-            if self.__board__.get_piece(from_row-1,from_col) is None:
-                if from_row==6 and self.__board__.get_piece(from_row-2,from_col) is None:
-                    return [(from_row-1,from_col),(from_row-2,from_col)]
-                else: return [(from_row-1,from_col)]
-            else: return []
+    def add_forward_moves(self, from_row, from_col, direction, moves):
+        start_row = self.get_start_row()
+        if self.is_empty(from_row + direction, from_col):
+            moves.append((from_row + direction, from_col))
+            if from_row == start_row and self.is_empty(from_row + 2 * direction, from_col):  # Corregido aquí
+                moves.append((from_row + 2 * direction, from_col))
+
+    def add_capture_moves(self, from_row, from_col, direction, moves):
+        capture_moves = [(direction, -1), (direction, 1)]
+        for move in capture_moves:
+            next_row, next_col = from_row + move[0], from_col + move[1]
+            if self.is_in_bounds(next_row, next_col) and self.can_capture(next_row, next_col):
+                moves.append((next_row, next_col))
+
+    def get_move_direction(self):
+        return -1 if self.get_color() == 'WHITE' else 1
+
+    def get_start_row(self):
+        return 6 if self.get_color() == 'WHITE' else 1 
+
+    def is_in_bounds(self, row, col):
+        return 0 <= row < 8 and 0 <= col < 8
+
+    def is_empty(self, row, col):
+        return self.is_in_bounds(row, col) and self.__board__.get_piece(row, col) is None
+
+    def can_capture(self, row, col):
+        piece = self.__board__.get_piece(row, col)
+        return piece is not None and piece.get_color() != self.get_color()
