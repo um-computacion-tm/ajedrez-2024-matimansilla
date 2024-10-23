@@ -4,6 +4,7 @@ omit =
     venv/*
     /tests/
     test*
+    *test*
     */_init_.py
 [report]
 exclude_lines =
