@@ -26,22 +26,14 @@ class TestKnight(unittest.TestCase):
         expected_symbol = '♞'
         self.assertEqual(symbol_result, expected_symbol)
 
-    # Movimientos válidos de un caballo
-    knight_valid_moves = [
-        (6, 5),  # Movimiento a la derecha y adelante
-        (6, 3),  # Movimiento a la izquierda y adelante
-        (5, 6),  # Movimiento a la derecha y dos filas adelante
-        (5, 2),  # Movimiento a la izquierda y dos filas adelante
-        (3, 6),  # Movimiento a la derecha y una fila atrás
-        (3, 2),  # Movimiento a la izquierda y una fila atrás
-        (2, 5),  # Movimiento hacia abajo y a la derecha
-        (2, 3)   # Movimiento hacia abajo y a la izquierda
-    ]
-
     # Testeo de movimientos válidos
     def test_L_shape_valid_moves(self):
         """Confirma que los movimientos válidos en forma de L sean aceptados."""
-        self._validate_moves(self.knight_valid_moves, expected_result=True)
+        valid_moves = [
+            (6, 5), (6, 3), (5, 6), (5, 2), 
+            (3, 6), (3, 2), (2, 5), (2, 3)
+        ]
+        self._validate_moves(valid_moves, expected_result=True)
 
     # Testeo de movimientos inválidos
     def test_invalid_moves(self):

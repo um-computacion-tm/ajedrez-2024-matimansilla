@@ -5,38 +5,32 @@ from board import Board
 class TestBishop(unittest.TestCase):
 
     # Símbolos de las piezas (alfiles blanco y negro)
-    def test_bishop_white_symbol(self):
-        board_instance = Board()
-        white_bishop = Bishop("WHITE", board_instance)
-        self.assertEqual(white_bishop.symbol(), '♗', "El símbolo del alfil blanco debería ser '♗'.")
+    def test_bishop_symbol_white(self):
+        board = Board()
+        bishop = Bishop("WHITE", board)
+        self.assertEqual(bishop.symbol(), '♗')
 
-    def test_bishop_black_symbol(self):
-        board_instance = Board()
-        black_bishop = Bishop("BLACK", board_instance)
-        self.assertEqual(black_bishop.symbol(), '♝', "El símbolo del alfil negro debería ser '♝'.")
+    def test_bishop_symbol_black(self):
+        board = Board()
+        bishop = Bishop("BLACK", board)
+        self.assertEqual(bishop.symbol(), '♝')
 
     # TESTEO MOVIMIENTOS
     def setUp(self):
-        """Inicializa un nuevo tablero y coloca el alfil en una posición específica para las pruebas."""
-        self.board = Board()  # Creamos un nuevo tablero
-        self.bishop = Bishop("WHITE", self.board)  # Instanciamos un alfil blanco
-        self.board.set_piece(3, 5, self.bishop)  # Colocamos el alfil en la posición (3, 5)
+        """Crea un tablero nuevo y coloca el alfil en una posición avanzada para las pruebas."""
+        self.board = Board()  # Inicializamos un nuevo tablero de ajedrez
+        self.bishop = Bishop("WHITE", self.board)  # Creamos un alfil blanco
+        self.board.set_piece(3, 5, self.bishop)  # Posicionamos el alfil en la cuarta fila, sexta columna
 
-    def check_bishop_can_move_diagonally(self):
-        start_row = 3
-        start_col = 5
-        end_row = 5
-        end_col = 7  # Movimiento diagonal permitido
-        move_result = self.bishop.valid_positions(start_row, start_col, end_row, end_col)
-        self.assertIs(move_result, True, "Se esperaba que el movimiento diagonal fuera válido.")
+    def test_valid_position_diagonal(self):
+        from_row, from_col = 3, 5
+        to_row, to_col = 5, 7  # Movimiento válido en diagonal
+        self.assertTrue(self.bishop.valid_positions(from_row, from_col, to_row, to_col))  # Verifica que el movimiento sea válido
 
-    def confirm_bishop_cannot_move_laterally(self):
-        start_row = 3
-        start_col = 5
-        end_row = 3
-        end_col = 6  # Movimiento lateral no permitido
-        is_valid_move = self.bishop.valid_positions(start_row, start_col, end_row, end_col)
-        self.assertIs(is_valid_move, False, "Se esperaba que el movimiento lateral no fuera permitido.")
+    def test_invalid_position_non_diagonal(self):
+        from_row, from_col = 3, 5
+        to_row, to_col = 3, 6  # Movimiento no válido (no es diagonal)
+        self.assertFalse(self.bishop.valid_positions(from_row, from_col, to_row, to_col))  # Verifica que el movimiento no sea válido
 
 if __name__ == '__main__':
     unittest.main()  # Ejecuta las pruebas al ejecutar el script
