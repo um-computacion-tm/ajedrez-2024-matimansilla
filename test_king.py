@@ -46,19 +46,19 @@ class TestKing(unittest.TestCase):
         self.check_valid_move(start, end)
 
     def test_downward_movement(self):
-        """Comprueba si el rey se mueve hacia abajo de forma válida."""
+        """Confirma que el rey se desplace hacia abajo correctamente."""
         initial_position = (4, 4)
         target_position = (initial_position[0] + 1, initial_position[1])  # Se mueve una fila hacia abajo
         self.check_valid_move(initial_position, target_position)
 
     def test_shift_right(self):
-        """Evalúa si el rey puede moverse a la derecha correctamente."""
-        origin = (4, 4)
-        destination = (origin[0], origin[1] + 1)  # Movimiento hacia la derecha
-        self.check_valid_move(origin, destination)
+        """Evalúa si el rey puede moverse a la derecha de forma válida."""
+        position_start = (4, 4)
+        position_end = (position_start[0], position_start[1] + 1)  # Movimiento hacia la derecha
+        self.check_valid_move(position_start, position_end)
 
     def test_slide_left(self):
-        """Comprueba si el rey puede moverse hacia la izquierda de manera válida."""
+        """Confirma que el rey puede desplazarse a la izquierda de manera válida."""
         position_start = (4, 4)
         position_end = (position_start[0], position_start[1] - 1)  # Mueve una posición a la izquierda
         self.check_valid_move(position_start, position_end)
@@ -70,17 +70,20 @@ class TestKing(unittest.TestCase):
         self.check_valid_move(coord_initial, coord_final)
 
     def test_diag_down_left(self):
-        """Verifica un movimiento en diagonal hacia la esquina inferior izquierda es válido."""
+        """Confirma que un movimiento diagonal hacia la esquina inferior izquierda es válido."""
         pos_from = (4, 4)
         pos_to = (pos_from[0] + 1, pos_from[1] - 1)  # Diagonal hacia abajo y a la izquierda
         self.check_valid_move(pos_from, pos_to)
 
     # Testeo de movimientos inválidos
     def test_invalid_vertical_movement(self):
-        """Confirma que el rey no puede saltar verticalmente más de una posición."""
-        start_pos = (4, 4)
-        move_to = (start_pos[0] - 2, start_pos[1])  # Intenta moverse dos posiciones hacia arriba
-        self.check_invalid_move(start_pos, move_to)
+        """Asegura que el rey no pueda saltar verticalmente dos espacios."""
+        inicio = (4, 4)  # Coordenada inicial del rey
+        objetivo = (inicio[0] - 2, inicio[1])  # Intento de movimiento de dos posiciones hacia arriba
+        movimiento_valido = self.king.valid_positions(inicio[0], inicio[1], objetivo[0], objetivo[1])
+        
+        # Verifica que el movimiento no sea válido
+        self.assertFalse(movimiento_valido, "El rey no debe ser capaz de saltar dos espacios verticalmente.")
 
     def test_wrong_diag_move(self):
         """Valida que un movimiento diagonal largo sea considerado inválido."""
@@ -89,7 +92,7 @@ class TestKing(unittest.TestCase):
         self.check_invalid_move(begin, finish)
 
     def test_illegal_horizontal_jump(self):
-        """Verifica que el rey no pueda saltar horizontalmente."""
+        """Asegura que el rey no pueda saltar horizontalmente más de una casilla."""
         start_coord = (4, 4)
         end_coord = (start_coord[0], start_coord[1] + 2)  # Salta dos casillas hacia la derecha, lo cual no es permitido
         self.check_invalid_move(start_coord, end_coord)
