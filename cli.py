@@ -28,7 +28,7 @@ class ChessCli:
         option = self.offer_options()
         if option == 'exit':
             print("Has salido del juego.")
-            raise SystemExit  
+            raise SystemExit
         elif option == 'draw':
             print("Se ha ofrecido un empate.")
 
@@ -58,7 +58,7 @@ class ChessCli:
                 print("El empate ha sido aceptado.")
                 return 'draw' 
             else:
-                print("El empate ha sido rechazado.")
+                print("El empate ha sido rechazido.")
         return None 
 
     def end_game(self):

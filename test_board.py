@@ -23,7 +23,7 @@ class TestBoard(unittest.TestCase):
 
     def test_get_cell_string_empty(self):
         cell = None
-        expected_output = " "
+        expected_output = "."
         self.assertEqual(self.board.get_cell_string(cell), expected_output)
 
     def test_get_cell_string_with_piece(self):
