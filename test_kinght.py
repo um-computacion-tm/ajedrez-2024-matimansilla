@@ -13,23 +13,35 @@ class TestKnight(unittest.TestCase):
 
     # Verificar los símbolos de los caballos
     def test_knight_symbol_white(self):
-        """Verifica que el símbolo del caballo blanco sea correcto."""
-        knight = Knight("WHITE", self.game_board)
-        self.assertEqual(knight.symbol(), '♘')
+        """Confirma que el símbolo para el caballo blanco sea correcto."""
+        white_knight = Knight("WHITE", self.game_board)
+        symbol_result = white_knight.symbol()
+        expected_symbol = '♘'
+        self.assertEqual(symbol_result, expected_symbol)
 
     def test_knight_symbol_black(self):
-        """Verifica que el símbolo del caballo negro sea correcto."""
-        knight = Knight("BLACK", self.game_board)
-        self.assertEqual(knight.symbol(), '♞')
+        """Confirma que el símbolo para el caballo negro sea correcto."""
+        black_knight = Knight("BLACK", self.game_board)
+        symbol_result = black_knight.symbol()
+        expected_symbol = '♞'
+        self.assertEqual(symbol_result, expected_symbol)
+
+    # Movimientos válidos de un caballo
+    knight_valid_moves = [
+        (6, 5),  # Movimiento a la derecha y adelante
+        (6, 3),  # Movimiento a la izquierda y adelante
+        (5, 6),  # Movimiento a la derecha y dos filas adelante
+        (5, 2),  # Movimiento a la izquierda y dos filas adelante
+        (3, 6),  # Movimiento a la derecha y una fila atrás
+        (3, 2),  # Movimiento a la izquierda y una fila atrás
+        (2, 5),  # Movimiento hacia abajo y a la derecha
+        (2, 3)   # Movimiento hacia abajo y a la izquierda
+    ]
 
     # Testeo de movimientos válidos
     def test_L_shape_valid_moves(self):
         """Confirma que los movimientos válidos en forma de L sean aceptados."""
-        valid_moves = [
-            (6, 5), (6, 3), (5, 6), (5, 2), 
-            (3, 6), (3, 2), (2, 5), (2, 3)
-        ]
-        self._validate_moves(valid_moves, expected_result=True)
+        self._validate_moves(self.knight_valid_moves, expected_result=True)
 
     # Testeo de movimientos inválidos
     def test_invalid_moves(self):
