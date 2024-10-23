@@ -97,6 +97,14 @@ class Board:
         self.validate_position(row, col)
         self.__positions__[row][col] = piece
 
+    def place_piece(self, row, col, piece):
+        """
+        Coloca una pieza en una posición específica y actualiza su posición.
+        """
+        self.validate_position(row, col)
+        self.__positions__[row][col] = piece
+        piece.set_position(row, col)
+
     def move(self, from_row, from_col, to_row, to_col):
         """
         Mueve una pieza de una posición a otra.

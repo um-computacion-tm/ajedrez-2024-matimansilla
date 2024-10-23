@@ -1,4 +1,3 @@
-
 import unittest
 from pawn import Pawn
 from board import Board

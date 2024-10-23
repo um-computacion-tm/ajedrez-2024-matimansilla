@@ -1,4 +1,3 @@
-
 import unittest
 from king import King
 from board import Board
