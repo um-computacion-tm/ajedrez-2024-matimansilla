@@ -10,14 +10,24 @@ class TestKing(unittest.TestCase):
         self.king = King("WHITE", self.board)  # Crea un rey
 
     def check_invalid_move(self, start_pos, end_pos):
-        """Confirma que un movimiento no válido produzca un resultado falso."""
-        result = self.king.valid_positions(start_pos[0], start_pos[1], end_pos[0], end_pos[1])
-        self.assertFalse(result)
+        """Verifica que un movimiento inválido no sea permitido."""
+        x_origen = start_pos[0]
+        y_origen = start_pos[1]
+        x_destino = end_pos[0]
+        y_destino = end_pos[1]
+
+        resultado_movimiento = self.king.valid_positions(x_origen, y_origen, x_destino, y_destino)
+
+        self.assertFalse(resultado_movimiento)
 
     def check_valid_move(self, start_pos, end_pos):
         """Confirma que un movimiento válido produzca un resultado verdadero."""
-        result = self.king.valid_positions(start_pos[0], start_pos[1], end_pos[0], end_pos[1])
-        self.assertTrue(result)
+        fila_inicial, columna_inicial = start_pos
+        fila_final, columna_final = end_pos
+
+        movimiento_es_valido = self.king.valid_positions(fila_inicial, columna_inicial, fila_final, columna_final)
+
+        self.assertTrue(movimiento_es_valido)
 
     def test_king_symbol_white(self):
         self.assertEqual(self.king.symbol(), '♔')
@@ -30,53 +40,63 @@ class TestKing(unittest.TestCase):
 
     # Testeo de movimientos válidos
     def test_movement_up(self):
+        """Verifica que el rey se desplace hacia arriba de forma correcta."""
         start = (4, 4)
-        end = (3, 4)  # Avanza una posición hacia arriba
+        end = (start[0] - 1, start[1])  # Mueve una fila hacia arriba
         self.check_valid_move(start, end)
 
     def test_downward_movement(self):
+        """Comprueba si el rey se mueve hacia abajo de forma válida."""
         initial_position = (4, 4)
-        target_position = (5, 4)  # Se mueve hacia abajo
+        target_position = (initial_position[0] + 1, initial_position[1])  # Se mueve una fila hacia abajo
         self.check_valid_move(initial_position, target_position)
 
     def test_shift_right(self):
+        """Evalúa si el rey puede moverse a la derecha correctamente."""
         origin = (4, 4)
-        destination = (4, 5)  # Movimiento hacia la derecha
+        destination = (origin[0], origin[1] + 1)  # Movimiento hacia la derecha
         self.check_valid_move(origin, destination)
 
     def test_slide_left(self):
+        """Comprueba si el rey puede moverse hacia la izquierda de manera válida."""
         position_start = (4, 4)
-        position_end = (4, 3)  # Movimiento hacia la izquierda
+        position_end = (position_start[0], position_start[1] - 1)  # Mueve una posición a la izquierda
         self.check_valid_move(position_start, position_end)
 
     def test_diag_up_right(self):
+        """Verifica un movimiento diagonal válido hacia la parte superior derecha."""
         coord_initial = (4, 4)
-        coord_final = (3, 5)  # Movimiento en diagonal superior derecha
+        coord_final = (coord_initial[0] - 1, coord_initial[1] + 1)  # Diagonal superior derecha
         self.check_valid_move(coord_initial, coord_final)
 
     def test_diag_down_left(self):
+        """Verifica un movimiento en diagonal hacia la esquina inferior izquierda es válido."""
         pos_from = (4, 4)
-        pos_to = (5, 3)  # Diagonal hacia la izquierda y abajo
+        pos_to = (pos_from[0] + 1, pos_from[1] - 1)  # Diagonal hacia abajo y a la izquierda
         self.check_valid_move(pos_from, pos_to)
 
     # Testeo de movimientos inválidos
     def test_invalid_vertical_movement(self):
+        """Confirma que el rey no puede saltar verticalmente más de una posición."""
         start_pos = (4, 4)
-        move_to = (2, 4)  # Salta dos posiciones hacia arriba
+        move_to = (start_pos[0] - 2, start_pos[1])  # Intenta moverse dos posiciones hacia arriba
         self.check_invalid_move(start_pos, move_to)
 
     def test_wrong_diag_move(self):
+        """Valida que un movimiento diagonal largo sea considerado inválido."""
         begin = (4, 4)
-        finish = (2, 2)  # Mueve dos posiciones en diagonal, movimiento ilegal
+        finish = (begin[0] - 2, begin[1] - 2)  # Mueve dos posiciones en diagonal, movimiento ilegal
         self.check_invalid_move(begin, finish)
 
     def test_illegal_horizontal_jump(self):
+        """Verifica que el rey no pueda saltar horizontalmente."""
         start_coord = (4, 4)
-        end_coord = (4, 6)  # Salta dos casillas hacia la derecha, lo cual no es permitido
+        end_coord = (start_coord[0], start_coord[1] + 2)  # Salta dos casillas hacia la derecha, lo cual no es permitido
         self.check_invalid_move(start_coord, end_coord)
 
     # Testeo de get_possible_moves
     def test_get_possible_moves(self):
+        """Evalúa los movimientos posibles del rey en el tablero."""
         from_pos = (4, 4)
         directions = self.king._king_queen_directions_  # Obtener las direcciones del rey
         possible_moves = self.king.get_possible_moves(from_pos[0], from_pos[1], directions)
