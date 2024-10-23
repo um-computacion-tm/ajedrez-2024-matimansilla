@@ -30,8 +30,14 @@ class TestKnight(unittest.TestCase):
     def test_L_shape_valid_moves(self):
         """Confirma que los movimientos válidos en forma de L sean aceptados."""
         valid_moves = [
-            (6, 5), (6, 3), (5, 6), (5, 2), 
-            (3, 6), (3, 2), (2, 5), (2, 3)
+            (6, 5), 
+            (6, 3), 
+            (5, 6), 
+            (5, 2), 
+            (3, 6), 
+            (3, 2), 
+            (2, 5), 
+            (2, 3)
         ]
         self._validate_moves(valid_moves, expected_result=True)
 

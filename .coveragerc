@@ -3,6 +3,7 @@ source = .
 omit =
     venv/*
     /tests/
+    test*
     */_init_.py
 [report]
 exclude_lines =
