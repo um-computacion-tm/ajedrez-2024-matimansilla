@@ -15,8 +15,7 @@ class TestKing(unittest.TestCase):
         king = King("BLACK", board)
         self.assertEqual(king.symbol(), '♚')
 
-# TESTEO MOVIMIENTOS
-
+    # TESTEO MOVIMIENTOS
 
     # Testeo de movimientos válidos
     def test_move_up(self):
@@ -83,7 +82,19 @@ class TestKing(unittest.TestCase):
         to_pos = (4, 6)  # Dos casillas hacia la derecha
         self.assertFalse(king.valid_positions(from_pos[0], from_pos[1], to_pos[0], to_pos[1]))
 
-
+    # Testeo de get_possible_moves
+    def test_get_possible_moves(self):
+        board = Board()
+        king = King("WHITE", board)
+        from_pos = (4, 4)
+        directions = king._king_queen_directions_  # Obtener las direcciones del rey
+        possible_moves = king.get_possible_moves(from_pos[0], from_pos[1], directions)
+        expected_moves = [
+            (3, 4), (5, 4), (4, 5), (4, 3), (3, 5), (5, 3)  # Movimientos válidos del rey
+        ]
+        # Comprobar que todos los movimientos esperados están en los movimientos posibles
+        for move in expected_moves:
+            self.assertIn(move, possible_moves)
 
 if __name__ == '__main__':
     unittest.main()
