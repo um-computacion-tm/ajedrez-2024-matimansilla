@@ -1,4 +1,4 @@
-from chess.pieces import Piece
+from pieces import Piece
 
 class King(Piece):
     white_str = "♔"

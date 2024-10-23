@@ -2,23 +2,17 @@ from pieces import Piece
 
 class Rook(Piece):
     def __init__(self, color, board):
-        super().__init__(color, board)  # Se pasa 'board' al constructor de la clase base
-        self.board = board  # Redundante, pero lo mantenemos para mayor claridad
+        super().__init__(color, board)
         self.white_str = "♖"
         self.black_str = "♜"
 
-    def __str__(self):
+    def symbol(self):
         return self.white_str if self.color == "WHITE" else self.black_str
 
     def valid_positions(self, start_row, start_col, end_row, end_col):
-        """
-        Verifica si el movimiento de la torre es válido.
-        Solo permite movimientos en línea recta, ya sea en las filas o columnas.
-        """
-        if start_row == end_row or start_col == end_col:
-            return True  # Movimiento válido
-        else:
-            raise ValueError("La torre solo puede moverse en línea recta.")  # Excepción si no es en línea recta
+        if not (start_row == end_row or start_col == end_col):
+            raise ValueError("La torre solo puede moverse en línea recta.")
+        return True
 
     def possible_positions_va(self, row, col):
         """Movimientos verticales hacia arriba"""
