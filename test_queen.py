@@ -20,7 +20,6 @@ class TestQueenValidPositions(unittest.TestCase):
         self.white_queen = Queen("WHITE", self.board)
 
     def test_valid_move(self):
-        # Prueba movimientos válidos y no válidos
         test_cases = [
             {'from_row': 3, 'from_col': 3, 'to_row': 5, 'to_col': 3, 'expected': True},   # Vertical
             {'from_row': 3, 'from_col': 3, 'to_row': 3, 'to_col': 5, 'expected': True},   # Horizontal
@@ -42,12 +41,21 @@ class TestQueenValidPositions(unittest.TestCase):
     def get_mocked_moves(self, move, expected):
         if expected:  # Para movimientos válidos
             if move['from_row'] == move['to_row']:  # Horizontal
-                return [(move['to_row'], col) for col in range(min(move['from_col'], move['to_col']), max(move['from_col'], move['to_col']) + 1)]
+                start_col = min(move['from_col'], move['to_col'])
+                end_col = max(move['from_col'], move['to_col'])
+                return [(move['to_row'], col) for col in range(start_col, end_col + 1)]
             elif move['from_col'] == move['to_col']:  # Vertical
-                return [(row, move['to_col']) for row in range(min(move['from_row'], move['to_row']), max(move['from_row'], move['to_row']) + 1)]
+                start_row = min(move['from_row'], move['to_row'])
+                end_row = max(move['from_row'], move['to_row'])
+                return [(row, move['to_col']) for row in range(start_row, end_row + 1)]
             else:  # Diagonal
-                return [(move['from_row'] + i, move['from_col'] + i) for i in range(-1, 3) if 0 <= move['from_row'] + i < 8 and 0 <= move['from_col'] + i < 8]
+                return [(move['from_row'] + i, move['from_col'] + i) for i in range(-1, 3)
+                        if 0 <= move['from_row'] + i < 8 and 0 <= move['from_col'] + i < 8]
         return [(5, 5), (4, 4)]  # Retorna movimientos no válidos por defecto
+
+    def mock_possible_positions(self, orthogonal_positions, diagonal_positions):
+        self.white_queen.possible_orthogonal_positions = MagicMock(return_value=orthogonal_positions)
+        self.white_queen.possible_diagonal_positions = MagicMock(return_value=diagonal_positions)
 
     def test_get_possible_moves_calls_find_valid_moves(self):
         from_row, from_col = 3, 3
@@ -59,8 +67,12 @@ class TestQueenValidPositions(unittest.TestCase):
 
     def test_get_possible_positions(self):
         from_row, from_col = 3, 3
-        self.white_queen.possible_orthogonal_positions = MagicMock(return_value=[(3, 4), (3, 5), (4, 3), (5, 3)])
-        self.white_queen.possible_diagonal_positions = MagicMock(return_value=[(4, 4), (5, 5), (2, 2), (1, 1)])
+        
+        # Utiliza el nuevo método para establecer los mocks
+        self.mock_possible_positions(
+            orthogonal_positions=[(3, 4), (3, 5), (4, 3), (5, 3)],
+            diagonal_positions=[(4, 4), (5, 5), (2, 2), (1, 1)]
+        )
         
         expected_positions = [
             (3, 4), (3, 5), (4, 3), (5, 3),  # Movimientos ortogonales
