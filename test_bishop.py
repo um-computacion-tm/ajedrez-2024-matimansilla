@@ -1,48 +1,37 @@
 import unittest
-from knight import Knight
+from bishop import Bishop
 from board import Board
 
-class TestKnight(unittest.TestCase):
-    """Clase de pruebas para el comportamiento de la pieza Caballo."""
+class TestBishop(unittest.TestCase):
+
+    # Simbolos piezas alfiles (blanco y negro)
+
+    def test_bishop_symbol_white(self):
+        board = Board()
+        bishop = Bishop("WHITE", board)
+        self.assertEqual(bishop.symbol(), '♗')
+
+    def test_bishop_symbol_black(self):
+        board = Board()
+        bishop = Bishop("BLACK", board)
+        self.assertEqual(bishop.symbol(), '♝')
+
+    # TESTEO MOVIMIENTOS
 
     def setUp(self):
-        """Inicializa el tablero y coloca el caballo en el centro."""
-        self.board = Board()
-        self.knight = Knight("WHITE", self.board)
-        self.board.set_piece(4, 4, self.knight)  # Coloca el caballo en el centro
+        self.board = Board()  # Inicializa un nuevo tablero antes de cada prueba
+        self.bishop = Bishop("WHITE", self.board)  # Crea un alfil blanco
+        self.board.set_piece(4, 4, self.bishop)  # Coloca el alfil en el centro
 
-    # Testeo de símbolos
-    def test_knight_symbol_white(self):
-        """Verifica que el símbolo del caballo blanco sea el correcto."""
-        self.assertEqual(self.knight.symbol(), '♘')
+    def test_valid_position_diagonal(self):
+        from_row, from_col = 4, 4
+        to_row, to_col = 6, 6  # Movimiento válido en diagonal
+        self.assertTrue(self.bishop.valid_positions(from_row, from_col, to_row, to_col))  # Verifica que el movimiento sea válido
 
-    def test_knight_symbol_black(self):
-        """Verifica que el símbolo del caballo negro sea el correcto."""
-        black_knight = Knight("BLACK", self.board)
-        self.assertEqual(black_knight.symbol(), '♞')
-
-    # Testeo de movimientos válidos
-    def test_valid_positions_L_shape(self):
-        """Confirma que los movimientos válidos en forma de L se acepten."""
-        valid_moves = [
-            (6, 5), (6, 3), (5, 6), (5, 2), 
-            (3, 6), (3, 2), (2, 5), (2, 3)
-        ]
-        self._check_moves(valid_moves, True)
-
-    # Testeo de movimientos inválidos
-    def test_invalid_positions(self):
-        """Verifica que los movimientos que no son en L sean rechazados."""
-        invalid_moves = [
-            (4, 5), (5, 4), (6, 4), (4, 6)  # Movimientos que no son válidos
-        ]
-        self._check_moves(invalid_moves, False)
-
-    def _check_moves(self, moves, expected_result):
-        """Verifica la validez de una lista de movimientos."""
-        for move in moves:
-            to_row, to_col = move
-            self.assertEqual(self.knight.valid_positions(4, 4, to_row, to_col), expected_result)
+    def test_invalid_position_non_diagonal(self):
+        from_row, from_col = 4, 4
+        to_row, to_col = 4, 5  # Movimiento no válido (no es diagonal)
+        self.assertFalse(self.bishop.valid_positions(from_row, from_col, to_row, to_col))  # Verifica que el movimiento no sea válido
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main()  # Ejecuta las pruebas al ejecutar el script
