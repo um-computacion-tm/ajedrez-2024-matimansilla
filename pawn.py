@@ -1,5 +1,5 @@
-from chess.pieces import Piece
-from chess.queen import Queen
+from pieces import Piece
+from queen import Queen
 
 class Pawn(Piece):
 
@@ -22,10 +22,9 @@ class Pawn(Piece):
         return moves
 
     def add_forward_moves(self, from_row, from_col, direction, moves):
-        start_row = self.get_start_row()
         if self.is_empty(from_row + direction, from_col):
             moves.append((from_row + direction, from_col))
-            if from_row == start_row and self.is_empty(from_row + 2 * direction, from_col):  # Corregido aquí
+            if from_row == self.get_start_row() and self.is_empty(from_row + 2 * direction, from_col):
                 moves.append((from_row + 2 * direction, from_col))
 
     def add_capture_moves(self, from_row, from_col, direction, moves):

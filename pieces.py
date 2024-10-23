@@ -1,94 +1,46 @@
-from pieces import Piece
-from queen import Queen
-
-class Pawn(Piece):
-    white_str = "♙"
-    black_str = "♟"
-
-    def __init__(self, color, board):
-        super().__init__(color, board)  
-
-    def symbol(self):
-        return self.white_str if self.get_color() == 'WHITE' else self.black_str
-
-    def valid_positions(self, from_row, from_col, to_row, to_col):
-        possible_moves = self.get_possible_moves(from_row, from_col)
-        return any(move == (to_row, to_col) for move in possible_moves)
-
-    def get_possible_moves(self, from_row, from_col):
-        moves = []
-        direction = self.get_move_direction() 
-        start_row = self.get_start_row()      
-        self.add_forward_moves(from_row, from_col, direction, moves)
-        self.add_capture_moves(from_row, from_col, direction, moves)
-        return moves
-
-    def add_forward_moves(self, from_row, from_col, direction, moves):
-        start_row = self.get_start_row()
-        if self.is_empty(from_row + direction, from_col):
-            moves.append((from_row + direction, from_col))
-            if from_row == start_row and self.is_empty(from_row + 2 * direction, from_col):
-                moves.append((from_row + 2 * direction, from_col))
-
-    def add_capture_moves(self, from_row, from_col, direction, moves):
-        capture_moves = [(direction, -1), (direction, 1)]
-        for move in capture_moves:
-            next_row, next_col = from_row + move[0], from_col + move[1]
-            if self.is_in_bounds(next_row, next_col) and self.can_capture(next_row, next_col):
-                moves.append((next_row, next_col))
-
-    def get_move_direction(self):
-        return -1 if self.get_color() == 'WHITE' else 1
-
-    def get_start_row(self):
-        return 6 if self.get_color() == 'WHITE' else 1 
-
-    def is_in_bounds(self, row, col):
-        return 0 <= row < 8 and 0 <= col < 8
-
-    def is_empty(self, row, col):
-        return self.is_in_bounds(row, col) and self.__board__.get_piece(row, col) is None
-
-    def can_capture(self, row, col):
-        piece = self.__board__.get_piece(row, col)
-        return piece is not None and piece.get_color() != self.get_color()
-
-
 class Piece:
     def __init__(self, color, board):
-        self.color = color
+        self.__color__ = color
         self.__board__ = board
-        self.position = None
+        self._king_queen_directions_ = [(-1, -1), (-1, 1), (1, -1), (1, 1), (-1, 0), (1, 0), (0, -1), (0, 1)]
 
-    def __str__(self):
-        return self.white_str if self.color == "WHITE" else self.black_str
+    def get_directions(self):
+        return []
 
-    def set_position(self, row, col):
-        self.position = (row, col)
+    def get_color(self):
+        return self.__color__
 
-    def symbol(self):
-        return str(self)
+    def find_valid_moves(self, row, col, directions, single_step=False):
+        valid_moves = []
+        position = {'row': row, 'col': col}
+        for delta_row, delta_col in directions:
+            valid_moves.extend(self.explore_direction(position, delta_row, delta_col, single_step))
+        return valid_moves
 
-    def possible_moves(self):
-        raise NotImplementedError("Este método debe ser sobrescrito por cada pieza.")
+    def explore_direction(self, position, delta_row, delta_col, single_step):
+        row, col = position['row'], position['col']
+        current_row, current_col = row + delta_row, col + delta_col
+        valid_moves = []
+        while self.is_within_board(current_row, current_col):
+            target_piece = self.__board__.get_piece(current_row, current_col)
+            if target_piece is not None:
+                self.handle_target_piece(target_piece, current_row, current_col, valid_moves)
+                break
+            valid_moves.append((current_row, current_col))
+            if single_step:
+                break
+            current_row, current_col = self.update_position(current_row, current_col, delta_row, delta_col)
+        return valid_moves
 
-class Rook(Piece):
-    white_str = "♖"
-    black_str = "♜"
+    def handle_target_piece(self, target_piece, current_row, current_col, valid_moves):
+        if target_piece.get_color() != self.get_color():
+            valid_moves.append((current_row, current_col))
 
-    def __init__(self, color, board):
-        super().__init__(color, board)
+    def update_position(self, current_row, current_col, delta_row, delta_col):
+        return current_row + delta_row, current_col + delta_col
 
-    def possible_moves(self):
-        return self.__board__.possible_positions_vd(self.position) + \
-               self.__board__.possible_positions_va(self.position)
+    def is_within_board(self, row, col):
+        return all(0 <= x < 8 for x in (row, col))
 
-class Knight(Piece):
-    white_str = "♘"
-    black_str = "♞"
-
-    def __init__(self, color, board):
-        super().__init__(color, board)
-
-    def possible_moves(self):
-        return []  # Ejemplo simplificado
+    def is_own_piece(self, target_piece):
+        return target_piece is not None and target_piece.get_color() == self.get_color()
