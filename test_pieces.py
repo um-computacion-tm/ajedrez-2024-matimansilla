@@ -29,9 +29,11 @@ class TestPieces(unittest.TestCase):
     def test_capture_opponent_piece(self):
         mock_opponent_piece = MagicMock()
         mock_opponent_piece.get_color.return_value = "BLACK"
-        self.board.get_piece.side_effect = lambda row, col: (
-            mock_opponent_piece if (row, col) == (3, 5) else None
-        )  # Solo devuelve la pieza del oponente en (3, 5)
+        
+        # Nuevo bloque diferenciado para capturar pieza del oponente
+        def pieza_oponente(x, y):
+            return mock_opponent_piece if (x, y) == (3, 5) else None
+        self.board.get_piece.side_effect = pieza_oponente  # Asigna función para simular pieza enemiga
         
         directions = [(0, 1)]  # Dirección hacia la derecha
         valid_moves = self.piece.find_valid_moves(3, 3, directions)
@@ -53,9 +55,11 @@ class TestPieces(unittest.TestCase):
     def test_blocked_by_own_piece(self):
         mock_own_piece = MagicMock()
         mock_own_piece.get_color.return_value = "WHITE"
-        self.board.get_piece.side_effect = lambda row, col: (
-            mock_own_piece if (row, col) == (3, 4) else None
-        )  # Solo devuelve la pieza propia en (3, 4)
+        
+        # Segundo bloque diferenciado para la pieza propia
+        self.board.get_piece.side_effect = lambda fila, columna: (
+            mock_own_piece if all([fila == 3, columna == 4]) else None
+        )  # Asigna pieza propia en la posición (3, 4)
 
         directions = [(0, 1)]  # Dirección hacia la derecha
         valid_moves = self.piece.find_valid_moves(3, 3, directions)
