@@ -9,13 +9,15 @@ class TestKing(unittest.TestCase):
         self.board = Board()  # Inicializa el tablero
         self.king = King("WHITE", self.board)  # Crea un rey
 
-    def assert_invalid_move(self, from_pos, to_pos):
-        """Verifica que un movimiento no válido retorne False."""
-        self.assertFalse(self.king.valid_positions(from_pos[0], from_pos[1], to_pos[0], to_pos[1]))
+    def check_invalid_move(self, start_pos, end_pos):
+        """Confirma que un movimiento no válido produzca un resultado falso."""
+        result = self.king.valid_positions(start_pos[0], start_pos[1], end_pos[0], end_pos[1])
+        self.assertFalse(result)
 
-    def assert_valid_move(self, from_pos, to_pos):
-        """Verifica que un movimiento válido retorne True."""
-        self.assertTrue(self.king.valid_positions(from_pos[0], from_pos[1], to_pos[0], to_pos[1]))
+    def check_valid_move(self, start_pos, end_pos):
+        """Confirma que un movimiento válido produzca un resultado verdadero."""
+        result = self.king.valid_positions(start_pos[0], start_pos[1], end_pos[0], end_pos[1])
+        self.assertTrue(result)
 
     def test_king_symbol_white(self):
         self.assertEqual(self.king.symbol(), '♔')
@@ -27,51 +29,51 @@ class TestKing(unittest.TestCase):
     # TESTEO MOVIMIENTOS
 
     # Testeo de movimientos válidos
-    def test_move_up(self):
-        from_pos = (4, 4)
-        to_pos = (3, 4)  # Una casilla hacia arriba
-        self.assert_valid_move(from_pos, to_pos)
+    def test_movement_up(self):
+        start = (4, 4)
+        end = (3, 4)  # Avanza una posición hacia arriba
+        self.check_valid_move(start, end)
 
-    def test_move_down(self):
-        from_pos = (4, 4)
-        to_pos = (5, 4)  # Una casilla hacia abajo
-        self.assert_valid_move(from_pos, to_pos)
+    def test_downward_movement(self):
+        initial_position = (4, 4)
+        target_position = (5, 4)  # Se mueve hacia abajo
+        self.check_valid_move(initial_position, target_position)
 
-    def test_move_right(self):
-        from_pos = (4, 4)
-        to_pos = (4, 5)  # Una casilla hacia la derecha
-        self.assert_valid_move(from_pos, to_pos)
+    def test_shift_right(self):
+        origin = (4, 4)
+        destination = (4, 5)  # Movimiento hacia la derecha
+        self.check_valid_move(origin, destination)
 
-    def test_move_left(self):
-        from_pos = (4, 4)
-        to_pos = (4, 3)  # Una casilla hacia la izquierda
-        self.assert_valid_move(from_pos, to_pos)
+    def test_slide_left(self):
+        position_start = (4, 4)
+        position_end = (4, 3)  # Movimiento hacia la izquierda
+        self.check_valid_move(position_start, position_end)
 
-    def test_move_up_right(self):
-        from_pos = (4, 4)
-        to_pos = (3, 5)  # Diagonal hacia arriba a la derecha
-        self.assert_valid_move(from_pos, to_pos)
+    def test_diag_up_right(self):
+        coord_initial = (4, 4)
+        coord_final = (3, 5)  # Movimiento en diagonal superior derecha
+        self.check_valid_move(coord_initial, coord_final)
 
-    def test_move_down_left(self):
-        from_pos = (4, 4)
-        to_pos = (5, 3)  # Diagonal hacia abajo a la izquierda
-        self.assert_valid_move(from_pos, to_pos)
+    def test_diag_down_left(self):
+        pos_from = (4, 4)
+        pos_to = (5, 3)  # Diagonal hacia la izquierda y abajo
+        self.check_valid_move(pos_from, pos_to)
 
     # Testeo de movimientos inválidos
-    def test_invalid_move_up(self):
-        from_pos = (4, 4)
-        to_pos = (2, 4)  # Dos casillas hacia arriba
-        self.assert_invalid_move(from_pos, to_pos)
+    def test_invalid_vertical_movement(self):
+        start_pos = (4, 4)
+        move_to = (2, 4)  # Salta dos posiciones hacia arriba
+        self.check_invalid_move(start_pos, move_to)
 
-    def test_invalid_diagonal_move(self):
-        from_pos = (4, 4)
-        to_pos = (2, 2)  # Dos casillas en diagonal
-        self.assert_invalid_move(from_pos, to_pos)
+    def test_wrong_diag_move(self):
+        begin = (4, 4)
+        finish = (2, 2)  # Mueve dos posiciones en diagonal, movimiento ilegal
+        self.check_invalid_move(begin, finish)
 
-    def test_invalid_horizontal_jump(self):
-        from_pos = (4, 4)
-        to_pos = (4, 6)  # Dos casillas hacia la derecha
-        self.assert_invalid_move(from_pos, to_pos)
+    def test_illegal_horizontal_jump(self):
+        start_coord = (4, 4)
+        end_coord = (4, 6)  # Salta dos casillas hacia la derecha, lo cual no es permitido
+        self.check_invalid_move(start_coord, end_coord)
 
     # Testeo de get_possible_moves
     def test_get_possible_moves(self):
