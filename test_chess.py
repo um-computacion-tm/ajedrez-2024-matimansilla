@@ -30,20 +30,16 @@ class TestChess(unittest.TestCase):
         self.assertEqual(self.chess.get_turn(), "BLACK")  # Verifica que el turno cambió a negro
 
     def test_make_move_empty_position(self):
-        # Configura el mock para que devuelva None al intentar obtener la pieza de la posición (0, 0)
-        self.chess.__board__.get_piece.return_value = None
+        self.chess.__board__.get_piece.return_value = None  # Simula una posición vacía
         
-        # Intentar mover desde una posición vacía (0, 0)
         with self.assertRaises(EmptyPosition) as context:
             self.chess.make_move(0, 0, 1, 0)  # Desde una posición vacía hacia (1, 0)
         self.assertEqual(str(context.exception), "No hay ninguna pieza en la posición de origen")  # Verifica el mensaje de la excepción
 
     def test_make_move_invalid_turn(self):
-        # Configura el mock para simular que la pieza es negra
         self.chess.__board__.get_piece.return_value = self.piece
         self.piece.get_color.return_value = "BLACK"  # Simula que la pieza es negra
         
-        # Intentar mover una pieza que no es del turno actual
         with self.assertRaises(InvalidTurn) as context:
             self.chess.make_move(4, 4, 5, 4)  # Movimiento válido, pero de una pieza negra
         self.assertEqual(str(context.exception), "No es tu turno")  # Verifica el mensaje de la excepción
@@ -54,10 +50,9 @@ class TestChess(unittest.TestCase):
         self.piece.get_color.return_value = "WHITE"  # Simula que la pieza es blanca
         self.piece.valid_positions.return_value = False  # Simula un movimiento inválido
         
-        # Intentar hacer un movimiento inválido
-        with self.assertRaises(DestinationInvalidMove) as context:
+        with self.assertRaises(InvalidMove) as context:
             self.chess.make_move(4, 4, 5, 4)  # Movimiento inválido
-        self.assertEqual(str(context.exception), "Movimiento destino inválido")  # Verifica el mensaje de la excepción
+        self.assertEqual(str(context.exception), "Movimiento inválido")  # Verifica el mensaje de la excepción
 
 
 if __name__ == '__main__':

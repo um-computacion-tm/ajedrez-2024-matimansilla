@@ -1,49 +1,32 @@
 class InvalidMove(Exception):
-    message = "Movimiento inválido"
+    __message__ = "Movimiento inválido"
     
     def __str__(self):
-        return self.message
-
+        return self.__message__
 
 class InvalidTurn(InvalidMove):
-    message = "No puedes mover pieza de otro jugador"
-
+    __message__ = "No es tu turno"
 
 class EmptyPosition(InvalidMove):
-    message = "La posición está vacía"
-
+    __message__ = "No hay ninguna pieza en la posición de origen"
 
 class OutOfBoard(InvalidMove):
-    message = "La posición indicada se encuentra fuera del tablero"
-
+    __message__ = "Movimiento fuera de tablero"
 
 class OriginInvalidMove(InvalidMove):
-    message = "Sin piezas en posición de origen"
-
+    __message__ = "Sin piezas en posición origen"
 
 class DestinationInvalidMove(InvalidMove):
-    message = "Movimiento destino inválido"
-
+    __message__ = "Movimiento destino inválido"
 
 class SelfCaptureException(InvalidMove):
-    message = "No puedes capturar tus propias piezas."
-
+    __message__ = "No puedes capturar tus propias piezas."
 
 class InvalidCoordinateInputError(InvalidMove):
-    message = "Las coordenadas deben ser números."
+    __message__ = "Las coordenadas deben ser números."
 
+class RowOutOfBoard(InvalidMove):
+    __message__ = "La fila está fuera del tablero."
 
-class InvalidMoveNoPiece(InvalidMove):
-    message = "No hay pieza en la posición indicada."
-
-
-class InvalidMoveRookMove(InvalidMove):
-    message = "Movimiento de la torre inválido."
-
-
-class RowOutOfBoard(OutOfBoard):
-    message = "La fila indicada se encuentra fuera del tablero."
-
-
-class ColumnOutOfBoard(OutOfBoard):
-    message = "La columna indicada se encuentra fuera del tablero."
+class ColumnOutOfBoard(InvalidMove):
+    __message__ = "La columna está fuera del tablero."
